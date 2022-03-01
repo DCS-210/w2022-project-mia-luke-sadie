@@ -4,6 +4,10 @@ author: by Team name
 output: github_document
 ---
 
+```{r}
+library(tidyverse)
+```
+
 ## Summary
 
 Write-up of your project and findings go here. 
@@ -21,7 +25,15 @@ Your results with proper output and graphics go in your presentation, this space
 
 ```{r load-data, echo = FALSE}
 ??nyc_squirrels
+nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
 ```
+```{r}
+nyc_squirrels_colors <- nyc_squirrels %>%
+  filter(is.na(primary_fur_color) == TRUE)
+  ggplot(aes(x = long, y = lat, color = primary_fur_color)) + 
+  geom_point()
+```
+
 
 ## Presentation
 
