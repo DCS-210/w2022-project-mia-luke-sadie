@@ -19,13 +19,8 @@ You can also load your data here and present any analysis results / plots, but I
 And make sure to hide your code with  `echo = FALSE` unless the point you are trying to make is about the code itself.
 Your results with proper output and graphics go in your presentation, this space is for a brief summary of your project.
 
-```{r}
-library(tidyverse)
-```
-
-
 ```{r load-data, echo = FALSE}
-
+view(CAvideos)
 ```
 
 ## Presentation
