@@ -26,8 +26,13 @@ This data comes from the New York City Squirrel Census, which is a raw NY data f
 ## 2. Data
 
 ```{r}
-nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
+nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv") 
 ```
+
+``` {r}
+glimpse(nyc_squirrels)
+```
+
 
 
 ## 3. Data analysis plan
