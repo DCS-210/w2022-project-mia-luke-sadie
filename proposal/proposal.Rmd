@@ -1,6 +1,7 @@
 ---
 title: "Project proposal"
-author: "Team name"
+author: "Team: Mia Luke Sadie"
+date: "February 28, 2022"
 output: github_document
 ---
 
@@ -11,13 +12,22 @@ library(broom)
 
 ## 1. Introduction
 
+In this project we aim to gauge the relationship between number of views, shares, comments, and likes to determine the trending position of a youtube video. We hope to then explore the trending youtube videos by country comparison. This dataset includes several months (and counting) of data on daily trending YouTube videos. Data is included for the US, GB, DE, CA, FR regions (USA, Great Britain, Germany, Canada, and France, respectively), and RU, MX, KR, JP and IN regions (Russia, Mexico, South Korea, Japan and India respectively with up to 200 listed trending videos per day.
+
+We will analyze which factors impact the overall popularity of a Youtube video in any given country and compare a cross examination of results. The response variable for our analysis will be the overall popularity and ranking of the given YouTube video, with the explanatory variables being the aforementioned characteristics. We will be analyzing this data to see if we can predict which videos will perform well in national and international audiences and the potential implications of this. 
+
 
 
 ## 2. Data
 
 
 
+
 ## 3. Data analysis plan
+
+The outcome we are looking at is the overall popularity and trending position of the YouTube video; this will be determined by views, shares, comments, and likes (our predictor variable). We will compare trending video data by country. The countries involved in this data set include the USA, Great Britain, Germany, Canada, France, Russia, Mexico, South Korea, Japan and India. It will be most useful for us to examine the mean number of  views, shares, comments, and likes that it takes to achieve a “trending video”. We will also use a wide variety of summary statistics to determine the range of activity necessary for "trending" status. This number can also be tabulated by country, we can also assume that this number is adjusted by population of the country, accounting for differences. We will be using a variety of statistical methods to visualize the relationships between our data including correlation matrices, scatter plots with layered linear regressions, and maps. The statistical analysis that we run will hopefully give insight into the relationship between views, shares, comments, and likes and the trending nature of a given YouTube video. 
+
+Our hypothesis is that there will be a positive correlation between activity (views, shares, comments, and likes) on a given video and its trending position, as seen by increases in such video activity. The correlation matrix will allow us to determine the correlation coefficients between the variables in our data set, which will give insight as to which variables are positively or negatively correlated. We will then take a closer look at the different countries' results and conduct a cross examination to provide better insight on where it is easiest to have a trending video and what factors play into that. 
 
 
 
