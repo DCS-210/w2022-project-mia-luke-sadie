@@ -9,34 +9,47 @@ library(broom)
 
 ## 1. Introduction
 
-In this project, we will be using a dataset from Equity in Athletics
-Data Analysis to analyze trends in funding and athletic conference
-results. The data we are using comes directly from the U.S. Department
-of Education and contains data from 2003 - 2019 and focuses directly on
-the New England Small Athletic Conference schools. The data are drawn
-from the OPE Equity in Athletics Disclosure Website database. This
-database consists of athletics data that are submitted annually as
-required by the Equity in Athletics Disclosure Act (EADA), via a
-Web-based data collection, by all co-educational postsecondary
-institutions that receive Title IV funding (i.e., those that participate
-in federal student aid programs) and that have an intercollegiate
-athletics program.
+In this project, we will be using a dataset from “Freedom in the World”
+- Freedom House’s flagship publication to analyze trends in global
+political rights and civil liberties. The data we are using comes from
+tidytuesday an open data source. The dataset has been published annually
+since 1972 up until today and contains the survey ratings and narrative
+reports on 195 countries and 15 related and disputed territories. This
+dataset, which tracks individual availability to obtain freedom, is used
+by policymakers, the media, international corporations, civic activists,
+and human rights defenders to argue for change. We attempt to examine
+the question of *how national political freedoms change comparatively
+over time and why this is so*.
 
 The survey data is broken down into multiple categories including
-Participants, Head Coaching Staff, Assistant Coaching Staff,
-Athletically Related Student Aid, Revenues, Recruiting Expenses,
-Operating Expenses, and Expenses. This data will then be compared to
-NESCAC conference results from the years 2003-2009.
+guaranteed civil liberties, guaranteed political rights, status of
+individuals, and the development status of the country in question.
+Freedom House has written about their index - notably an article in 2018
+on \[“Democracy in Crisis”\]
+(<https://freedomhouse.org/report/freedom-world/2018/democracy-crisis>)
+and \[“10 years of Decline in Global Freedom”\]
+(<https://freedomhouse.org/article/q-10-years-decline-global-freedom>).
+This data will be assessed in conjunction with outside factors to
+determine the trajectory of freedom for countries.
 
-The specific questions we want to answer using this data set are: \*
-Does funding have an impact on results of a program \* What is the
-breakdown equity of funding for men and women’s teams? Individual
-schools? NESCAC wide? \* Do increased recruiting expenses, operating
-expenses, and expenses correlate with increases in winning? How are
-these trends fair between 2003-2019? \* Are sports with higher rates of
-funding more likely to achieve success? Do coach salaries have a factor
-in success rates?
+The specific questions we want to answer using this data set are:
+
+-   Does the stage of development of a country determine its level of
+    political freedoms?
+-   How long does it take for a country to obtain political freedom and
+    civil liberties? Is this a discernable pattern across nations?
+-   What appears to be a limiting factor in achieving political freedom
+    and civil liberties?
+-   Do the overall amount of countries achieving positive trends in
+    civil liberties and political freedom trend positive as time passes?
+    Why do we think this is so?
+-   Should we be alarmed by these figures?
+-   How many countries have experienced a decline in democracy? How many
+    countries have experienced an expansion in democracy?
 
 ## 2. Data
+
+freedom \<-
+readr::read_csv(‘<https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-02-22/freedom.csv>’)
 
 ## 3. Data analysis plan
