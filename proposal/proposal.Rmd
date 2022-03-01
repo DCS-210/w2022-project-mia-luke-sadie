@@ -33,9 +33,22 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 glimpse(nyc_squirrels)
 ```
 
+Our dataset has 36 unique variables and 3,023 observations of squirrels. 
 
 
 ## 3. Data analysis plan
+
+We seek to answer the following questions in our data analysis:
+* Are squirrels seen more frequently at night or during the day
+* What is the most commonly observed squirrel behavior?
+* Does squirrel behavior change depending on time of day or time of year?
+* What areas of NYC observe the highest number of squirrels?
+* What is the squirrel to human ratio of NYC? Of different neighborhoods?
+* How does the squirrel population differ based on environmental factors? 
+
+Our outcome variable is the squirrel population, and the predictor variables will vary depending on which question we are examining. 
+
+Through our analysis, we hope to provide summary statistics on squirrel behavior, as well as draw conclusions about the relationship between squirrel behaviors and populations, and the way these factors interact with their environment.
 
 
 
