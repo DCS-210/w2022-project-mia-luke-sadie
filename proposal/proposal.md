@@ -39,14 +39,16 @@ video data by country. The countries involved in this data set include
 the USA, Great Britain, Germany, Canada, France, Russia, Mexico, South
 Korea, Japan and India. It will be most useful for us to examine the
 mean number of views, shares, comments, and likes that it takes to
-achieve a “trending video”. This number can also be tabulated by
-country, we can also assume that this number is adjusted by population
-of the country, accounting for differences. We will be using a variety
-of statistical methods to visualize the relationships between our data
-including correlation matrices, scatter plots with layered linear
-regressions, and maps.The statistical analysis that we run will
-hopefully give insight into the relationship between views, shares,
-comments, and likes and the trending nature of a given YouTube video.
+achieve a “trending video”. We will also use a wide variety of summary
+statistics to determine the range of activity necessary for “trending”
+status. This number can also be tabulated by country, we can also assume
+that this number is adjusted by population of the country, accounting
+for differences. We will be using a variety of statistical methods to
+visualize the relationships between our data including correlation
+matrices, scatter plots with layered linear regressions, and maps. The
+statistical analysis that we run will hopefully give insight into the
+relationship between views, shares, comments, and likes and the trending
+nature of a given YouTube video.
 
 Our hypothesis is that there will be a positive correlation between
 activity (views, shares, comments, and likes) on a given video and its
