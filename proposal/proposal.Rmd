@@ -55,4 +55,10 @@ Through our analysis, we hope to provide summary statistics on squirrel behavior
 summary(nyc_squirrels)
 ```
 
+```{r}
+nyc_squirrels %>%
+  ggplot(na.rm = TRUE, aes(x = long, y = lat, color = primary_fur_color)) +
+  labs(title = "Position of Squirrel by Fur Color") +
+  geom_point()
+```
 
