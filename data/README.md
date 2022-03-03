@@ -1,8 +1,10 @@
-# data
+# Data
+
+"NYC SQUIRREL DATABASE"
 
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv") 
 
-## name of data file
+## Codebook
 
 - `long`: Longitude
 - `lat`: Latitude
@@ -40,4 +42,3 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 - `city_council_districts`: City council districts
 - `police_precincts`: Police precincts
 
-- ...
