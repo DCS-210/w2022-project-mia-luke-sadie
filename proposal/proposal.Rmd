@@ -51,4 +51,8 @@ Our outcome variable is the squirrel population, and the predictor variables wil
 Through our analysis, we hope to provide summary statistics on squirrel behavior, as well as draw conclusions about the relationship between squirrel behaviors and populations, and the way these factors interact with their environment.
 
 
+```{r Summary_Statistics}
+summary(nyc_squirrels)
+```
+
 
