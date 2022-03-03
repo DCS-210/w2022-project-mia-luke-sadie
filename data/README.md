@@ -4,6 +4,8 @@
 
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
 
+Our dataset has 36 unique variables and 3,023 observations of squirrels. 
+
 ## Codebook
 
 - `long`: Longitude
