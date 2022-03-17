@@ -4,7 +4,7 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 ```
 
 ```{r one-viz}
-nyc_squirrels_colors <- nyc_squirrels %>%
+nyc_squirrels_colors <- nyc_squirrels %>% 
   filter(is.na(primary_fur_color) == TRUE) %>%
   ggplot(aes(x = long, y = lat, color = primary_fur_color)) +     
   geom_point()
