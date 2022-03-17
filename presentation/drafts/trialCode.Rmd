@@ -1,0 +1,20 @@
+```{r load-data, echo = FALSE}
+??nyc_squirrels
+nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
+```
+
+```{r one-viz}
+nyc_squirrels_colors <- nyc_squirrels %>%
+  filter(is.na(primary_fur_color) == TRUE) %>%
+  ggplot(aes(x = long, y = lat, color = primary_fur_color)) + 
+  geom_point()
+```
+
+```{r cleaning-data}
+nyc_squirrels %>%
+  mutate(day_of_week = case_when(
+    date %in% c(10062018, 10072018, 10132018, 10142018, 10202018, 10212018, 10272018, 10282018) ~ "weekend",
+    TRUE ~ "weekday"
+  ))
+```
+
