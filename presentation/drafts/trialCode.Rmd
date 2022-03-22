@@ -11,7 +11,7 @@ nyc_squirrels_colors <- nyc_squirrels %>%
 ```
 
 ```{r cleaning-data}
-nyc_squirrels %>%
+nyc_squirrels <- nyc_squirrels %>%
   mutate(day_of_week = case_when(
     date %in% c(10062018, 10072018, 10132018, 10142018, 10202018, 10212018, 10272018, 10282018) ~ "weekend",
     TRUE ~ "weekday"
