@@ -43,4 +43,26 @@ ggplot(nyc_squirrels, aes(fill=primary_fur_color, x=behavior, y=primary_fur_colo
 
 ```
 
+```{r noise-variable-merge}
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(noise = case_when(
+    kuks == TRUE ~ "kuks",
+    quaas == TRUE ~ "quaas",
+    moans == TRUE ~ "moans",
+    TRUE ~ "no noise"
+  ))
+```
+
+```{r noise-faceted-by-weekend}
+ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
+  geom_histogram(stat = "count") +
+  facet_wrap(~day_of_week)
+```
+
+```{r noise-faceted-by-weekend-remove-no-noise}
+## Can i remove the "no noise" observation? 
+ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
+  geom_histogram(stat = "count") +
+  facet_wrap(~day_of_week) 
+```
 
