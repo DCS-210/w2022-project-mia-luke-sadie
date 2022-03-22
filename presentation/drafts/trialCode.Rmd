@@ -17,4 +17,23 @@ nyc_squirrels <- nyc_squirrels %>%
     TRUE ~ "weekday"
   ))
 ```
+```{r behavior-variable-merge}
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(behavior = case_when(
+    running == TRUE ~ "running",
+    chasing == TRUE ~ "chasing",
+    climbing == TRUE ~ "climbing",
+    eating == TRUE ~ "eating",
+    foraging == TRUE ~ "eating",
+    TRUE ~ "other"
+  ))
+```
+
+```{r behavior-density-faceted-by-weekend}
+ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
+  geom_histogram(stat = "count") +
+  facet_wrap(~day_of_week)
+```
+
+
 
