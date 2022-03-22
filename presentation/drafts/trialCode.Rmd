@@ -35,5 +35,12 @@ ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
   facet_wrap(~day_of_week)
 ```
 
+```{r stacked_bar}
+
+ggplot(nyc_squirrels, aes(fill=primary_fur_color, x=behavior, y=primary_fur_color)) + 
+    geom_bar(position="stack", stat="identity")
+    
+
+```
 
 
