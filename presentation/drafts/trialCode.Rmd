@@ -17,6 +17,7 @@ nyc_squirrels <- nyc_squirrels %>%
     TRUE ~ "weekday"
   ))
 ```
+
 ```{r behavior-variable-merge}
 nyc_squirrels <- nyc_squirrels %>%
   mutate(behavior = case_when(
@@ -87,4 +88,3 @@ lego_sales %>%
   mutate(area_code = str_sub(hectare_number, start = 1, end = 2)) %>%
   mutate(area_code = str_sub(hactare_letter, start = 3, end = 3)) 
 ```
-
