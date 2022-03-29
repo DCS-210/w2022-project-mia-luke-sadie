@@ -1,5 +1,4 @@
 
-
 ```{r load-data, echo = FALSE}
 ??nyc_squirrels
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
@@ -19,6 +18,7 @@ nyc_squirrels <- nyc_squirrels %>%
     TRUE ~ "weekday"
   ))
 ```
+
 ```{r behavior-variable-merge}
 nyc_squirrels <- nyc_squirrels %>%
   mutate(behavior = case_when(
@@ -38,11 +38,10 @@ ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
 ```
 
 ```{r stacked_bar}
-
-ggplot(nyc_squirrels, aes( x=behavior, y=primary_fur_color)) + 
-  geom_bar(position="stack", stat="identity") +
-  my_scale
-
+ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior, y = primary_fur_color)) + 
+    geom_bar(position = "stack", stat = "identity") +
+    scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1")
+  
 ```
 
 ```{r noise-variable-merge}
@@ -74,7 +73,6 @@ nyc_squirrels %>%
   labs(title = "Position of Squirrel by Fur Color") +
   geom_point()
 ```
-```
 
 ```{r pie-chart-fur-color}
 ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
@@ -86,9 +84,10 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
 ```
 
 ```{r}
-nyc_squirrels %>%
-  mutate(hectare = str_sub(hectare_number, start = 1, end = 2)) %>%
-  mutate(hectare = str_sub(hactare_letter, start = 3, end = 3)) %>%
+library(ggplot2)
+library(hrbrthemes)
+ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, #should be a fill here)) + 
+  geom_tile() +
+  scale_fill_gradient(low="white", high="blue") +
+  theme_ipsum()
 ```
-
-
