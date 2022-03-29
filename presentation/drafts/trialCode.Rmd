@@ -66,3 +66,9 @@ ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
   facet_wrap(~day_of_week) 
 ```
 
+```{r}
+lego_sales %>%
+  mutate(area_code = str_sub(hectare_number, start = 1, end = 2)) %>%
+  mutate(area_code = str_sub(hactare_letter, start = 3, end = 3)) %>%
+```
+
