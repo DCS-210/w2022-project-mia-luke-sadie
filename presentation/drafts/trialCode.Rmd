@@ -84,7 +84,10 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
 ```
 
 ```{r}
-nyc_squirrels %>%
-  mutate(hectare = str_sub(hectare_number, start = 1, end = 2)) %>%
-  mutate(hectare = str_sub(hactare_letter, start = 3, end = 3)) %>%
+library(ggplot2)
+library(hrbrthemes)
+ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, #should be a fill here)) + 
+  geom_tile() +
+  scale_fill_gradient(low="white", high="blue") +
+  theme_ipsum()
 ```
