@@ -66,3 +66,22 @@ ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
   facet_wrap(~day_of_week) 
 ```
 
+```{r}
+
+nyc_squirrels %>%
+  ggplot(na.rm = TRUE, aes(x = long, y = lat, color = primary_fur_color)) +
+  labs(title = "Position of Squirrel by Fur Color") +
+  geom_point()
+```
+```
+
+```{r pie-chart-fur-color}
+ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
+  geom_col() + 
+  labs(title = "Distribution of Primary Fur Color Among Squirrels in NYC", x = "", y = "") +
+  coord_polar(theta = "y") + 
+  scale_fill_brewer() + 
+  theme_void()
+```
+```
+
