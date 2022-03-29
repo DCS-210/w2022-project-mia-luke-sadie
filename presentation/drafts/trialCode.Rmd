@@ -71,6 +71,7 @@ ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
 nyc_squirrels %>%
   ggplot(na.rm = TRUE, aes(x = long, y = lat, color = primary_fur_color)) +
   labs(title = "Position of Squirrel by Fur Color") +
+   scale_color_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   geom_point()
 ```
 
@@ -80,6 +81,7 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
   labs(title = "Distribution of Primary Fur Color Among Squirrels in NYC", x = "", y = "") +
   coord_polar(theta = "y") + 
   scale_fill_brewer() + 
+   scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   theme_void()
 ```
 
