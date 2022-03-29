@@ -84,6 +84,13 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
 ```
 
 ```{r}
+library(stringr)
+nyc_squirrels$hectare_number = str_sub(nyc_squirrels$hectare,1,2) 
+nyc_squirrels$hectare_letter = str_sub(nyc_squirrels$hectare,3,3) 
+```
+
+
+```{r}
 library(ggplot2)
 library(hrbrthemes)
 ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel_number)) + 
