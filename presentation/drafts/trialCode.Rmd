@@ -38,10 +38,10 @@ ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
 
 ```{r stacked_bar}
 
-ggplot(nyc_squirrels, aes(fill=primary_fur_color, x=behavior, y=primary_fur_color)) + 
-    geom_bar(position="stack", stat="identity")
+ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior, y = primary_fur_color)) + 
+    geom_bar(position = "stack", stat = "identity") +
+    scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1")
     
-
 ```
 
 ```{r noise-variable-merge}
