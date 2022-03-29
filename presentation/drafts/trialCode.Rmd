@@ -1,3 +1,5 @@
+
+
 ```{r load-data, echo = FALSE}
 ??nyc_squirrels
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
@@ -6,7 +8,7 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 ```{r one-viz}
 nyc_squirrels_colors <- nyc_squirrels %>% 
   filter(is.na(primary_fur_color) == TRUE) %>%
-  ggplot(aes(x = long, y = lat, color = primary_fur_color)) +     
+  ggplot(aes(x = long, y = lat, color = colors)) +     
   geom_point() 
 ```
 
@@ -37,9 +39,9 @@ ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
 
 ```{r stacked_bar}
 
-ggplot(nyc_squirrels, aes(fill=primary_fur_color, x=behavior, y=primary_fur_color)) + 
-    geom_bar(position="stack", stat="identity")
-    
+ggplot(nyc_squirrels, aes( x=behavior, y=primary_fur_color)) + 
+  geom_bar(position="stack", stat="identity") +
+  my_scale
 
 ```
 
