@@ -100,3 +100,39 @@ ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel
   scale_fill_distiller(palette = "RdPu") +
   theme_ipsum()
 ```
+```{r Age Distribution of Squirrels }
+
+squirrel_ages <- nyc_squirrels %>%
+  mutate(age = na_if(age,'?'), n=1) %>%
+  group_by(age) %>%
+  summarize(age_sum = sum(n)) %>%
+  ungroup() %>%
+  mutate(total = sum(age_sum), dummy = '') %>%
+  summarize(age, age_sum, total, dummy, pct_age = (age_sum/total)*100)
+
+squirrel_ages[is.na(squirrel_ages)] <- "Unknown"
+
+
+ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
+  geom_col() +
+  geom_text(aes(label=paste0(round(pct_age,digits=2), "%")), position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Paired") +
+    theme_minimal(base_size = 16) +
+    labs(x = "Total Population", y ="Percentage", fill='Age Group') +
+   ggtitle('Central Park Squirrel Population by Age Group') +
+    theme(plot.title = element_text(hjust = 0.5)) 
+```
+```{r Color of Squirrels Based on Age }
+ nyc_squirrels %>%
+  filter(age !='?') %>%
+  mutate(n=1)%>%
+  group_by(age) %>%
+  ggplot() +
+  geom_col(aes(y=n,x=age, fill=primary_fur_color), position="fill") +
+  ggtitle('Demographics of Central Park Squirrels') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs( x='Age Group', y= 'Proportion') +
+  labs(fill='Primary Fur Color') +
+  scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
+```
+```{r}
