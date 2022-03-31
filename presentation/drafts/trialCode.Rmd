@@ -74,6 +74,20 @@ nyc_squirrels %>%
    scale_color_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   geom_point()
 ```
+```{r leaflet-map}
+pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
+
+#Locations based on fur color
+nyc_squirrels %>%
+  filter(!is.na(primary_fur_color)) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~long,
+                   lat = ~lat, radius = 3, color = ~pal_coats(primary_fur_color), stroke = FALSE, fillOpacity = 0.5) %>%
+  addLegend(position ="bottomright",pal = pal_coats, values = ~primary_fur_color)
+```
+
+
 
 ```{r pie-chart-fur-color}
 ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
@@ -99,6 +113,7 @@ ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel
   geom_tile() +
   scale_fill_distiller(palette = "RdPu") +
   theme_ipsum()
+
 ```
 ```{r Age Distribution of Squirrels }
 
@@ -135,4 +150,7 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
   labs(fill='Primary Fur Color') +
   scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
 ```
+
 ```{r}
+
+```
