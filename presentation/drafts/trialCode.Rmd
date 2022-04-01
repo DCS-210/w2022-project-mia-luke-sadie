@@ -1,3 +1,4 @@
+
 ```{r load-data, echo = FALSE}
 ??nyc_squirrels
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
@@ -6,7 +7,7 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 ```{r one-viz}
 nyc_squirrels_colors <- nyc_squirrels %>% 
   filter(is.na(primary_fur_color) == TRUE) %>%
-  ggplot(aes(x = long, y = lat, color = primary_fur_color)) +     
+  ggplot(aes(x = long, y = lat, color = colors)) +     
   geom_point() 
 ```
 
@@ -30,20 +31,6 @@ nyc_squirrels <- nyc_squirrels %>%
   ))
 ```
 
-```{r behavior-density-faceted-by-weekend}
-ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
-  geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week)
-```
-
-```{r stacked_bar}
-
-ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior, y = primary_fur_color)) + 
-    geom_bar(position = "stack", stat = "identity") +
-    scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1")
-    
-```
-
 ```{r noise-variable-merge}
 nyc_squirrels <- nyc_squirrels %>%
   mutate(noise = case_when(
@@ -53,6 +40,20 @@ nyc_squirrels <- nyc_squirrels %>%
     TRUE ~ "no noise"
   ))
 ```
+
+```{r behavior-density-faceted-by-weekend}
+ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
+  geom_histogram(stat = "count") +
+  facet_wrap(~day_of_week)
+```
+
+```{r stacked_bar}
+ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior, y = primary_fur_color)) + 
+    geom_bar(position = "stack", stat = "identity") +
+    scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1")
+  
+```
+
 
 ```{r noise-faceted-by-weekend}
 ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
@@ -74,6 +75,36 @@ nyc_squirrels %>%
    scale_color_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   geom_point()
 ```
+
+
+```{r leaflet-map-color}
+
+pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
+
+#Locations based on fur color
+nyc_squirrels %>%
+  filter(!is.na(primary_fur_color)) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~long,
+                   lat = ~lat, radius = 3, color = ~pal_coats(primary_fur_color), stroke = FALSE, fillOpacity = 0.5) %>%
+  addLegend(position ="bottomright",pal = pal_coats, values = ~primary_fur_color)
+```
+
+```{r leaflet_behavior}
+
+pal_behavior <- colorFactor(c("steelblue", "springgreen", "slateblue", "violet", "tomato"), domain = c("chasing", "climbing", "eating", "running", "other"))
+
+#Locations based on behavior
+nyc_squirrels %>%
+  filter(!is.na(behavior)) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~long,
+                   lat = ~lat, radius = 3, color = ~pal_behavior(behavior), stroke = FALSE, fillOpacity = 0.5) %>%
+  addLegend(position ="bottomright",pal = pal_behavior, values = ~behavior)
+```
+
 
 ```{r pie-chart-fur-color}
 ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
@@ -104,3 +135,50 @@ ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel
 ```
 # scale label manual
 # use scale to add manual axis labels
+=======
+  theme_ipsum()
+
+```
+
+
+```{r Age Distribution of Squirrels }
+
+squirrel_ages <- nyc_squirrels %>%
+  mutate(age = na_if(age,'?'), n=1) %>%
+  group_by(age) %>%
+  summarize(age_sum = sum(n)) %>%
+  ungroup() %>%
+  mutate(total = sum(age_sum), dummy = '') %>%
+  summarize(age, age_sum, total, dummy, pct_age = (age_sum/total)*100)
+
+squirrel_ages[is.na(squirrel_ages)] <- "Unknown"
+
+
+ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
+  geom_col() +
+  geom_text(aes(label=paste0(round(pct_age,digits=2), "%")), 
+            position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Paired") +
+    theme_minimal(base_size = 16) +
+    labs(x = "Total Population", 
+         y ="Percentage", 
+         fill='Age Group') +
+   ggtitle('Central Park Squirrel Population by Age Group') +
+    theme(plot.title = element_text(hjust = 0.5)) 
+```
+
+
+```{r Color of Squirrels Based on Age }
+ nyc_squirrels %>%
+  filter(age !='?') %>%
+  mutate(n=1)%>%
+  group_by(age) %>%
+  ggplot() +
+    geom_col(aes(y=n,x=age, fill=primary_fur_color), position="fill") +
+    ggtitle('Demographics of Central Park Squirrels') +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs( x='Age Group', y= 'Proportion') +
+    labs(fill='Primary Fur Color') +
+    scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
+```
+
