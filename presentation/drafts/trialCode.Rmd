@@ -75,6 +75,7 @@ nyc_squirrels %>%
   geom_point()
 ```
 ```{r leaflet-map}
+
 pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
 
 #Locations based on fur color
@@ -151,6 +152,3 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
   scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
 ```
 
-```{r}
-
-```
