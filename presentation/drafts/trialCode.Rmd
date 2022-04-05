@@ -85,7 +85,7 @@ nyc_squirrels <- nyc_squirrels %>%
   facet_wrap(~day_of_week) 
 ```
 
-```{r}
+```{r viz-of-position-by-squirrel-number}
 nyc_squirrels %>%
   ggplot(na.rm = TRUE, aes(x = long, y = lat, color = primary_fur_color)) +
   labs(title = "Position of Squirrel by Fur Color") +
@@ -94,7 +94,6 @@ nyc_squirrels %>%
 ```
 
 ```{r leaflet-map-color}
-
 pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
 
 #Locations based on fur color
@@ -108,7 +107,6 @@ nyc_squirrels %>%
 ```
 
 ```{r leaflet_behavior}
-
 pal_behavior <- colorFactor(c("#440154FF", "#404788FF", "#287D8EFF", "#55C667FF", "#FDE725FF"), domain = c("chasing", "climbing", "eating", "running", "other"))
 
 #Locations based on behavior
@@ -131,14 +129,13 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
   theme_void()
 ```
 
-```{r}
+```{r defining-variables-for-heat-map}
 nyc_squirrels$hectare_number <- str_sub(nyc_squirrels$hectare,1,2) 
 nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3) 
 ```
 
 
 ```{r heat-map}
-
 # scale label manual
 # use scale to add manual axis labels
 
@@ -154,7 +151,6 @@ ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel
 
 
 ```{r Age Distribution of Squirrels }
-
 squirrel_ages <- nyc_squirrels %>%
   mutate(age = na_if(age,'?'), n=1) %>%
   group_by(age) %>%
@@ -179,7 +175,6 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
 ```
 
 ```{r Color of Squirrels Based on Age }
-
 nyc_squirrels %>%
   filter(age !='?') %>%
   mutate(n=1)%>%
