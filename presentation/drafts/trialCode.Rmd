@@ -3,9 +3,11 @@
 ??nyc_squirrels
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
 ```
+
 ```{r load-packages}
 install.packages("RColorBrewer")
 library(RColorBrewer)
+library(paletteer)
 ```
 
 
@@ -67,8 +69,14 @@ ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
 ```
 
 ```{r noise-faceted-by-weekend-remove-no-noise}
-## Can i remove the "no noise" observation? 
-ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
+## Can i remove the "no noise" tatobservation? 
+# filter or drop factor levels, forcats package
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(noise = as.factor(noise)) %>%
+  filter(noise != "no noise") %>%
+  mutate(noise = fct_drop(noise))
+  
+  ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
   facet_wrap(~day_of_week) 
 ```
@@ -141,7 +149,9 @@ nyc_squirrels <- nyc_squirrels %>%
 
 ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel_number)) + 
   geom_tile() + 
-  scale_fill_brewer(palette = "Reds")
+  scale_fill_viridis_c(option = "plasma", direction = -1)
+
+# Could also set up bins 
 ```
 
 
