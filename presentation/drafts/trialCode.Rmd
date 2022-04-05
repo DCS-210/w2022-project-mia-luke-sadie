@@ -8,6 +8,10 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 install.packages("RColorBrewer")
 library(RColorBrewer)
 library(paletteer)
+library("leaflet")
+library(stringr)
+library(ggplot2)
+library(hrbrthemes)
 ```
 
 
@@ -88,9 +92,6 @@ nyc_squirrels %>%
    scale_color_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   geom_point()
 ```
-```{r install-leaflet}
-library("leaflet")
-```
 
 ```{r leaflet-map-color}
 
@@ -131,15 +132,12 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
 ```
 
 ```{r}
-library(stringr)
 nyc_squirrels$hectare_number <- str_sub(nyc_squirrels$hectare,1,2) 
 nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3) 
 ```
 
 
 ```{r heat-map}
-library(ggplot2)
-library(hrbrthemes)
 
 # scale label manual
 # use scale to add manual axis labels
