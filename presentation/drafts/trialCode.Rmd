@@ -3,6 +3,11 @@
 ??nyc_squirrels
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
 ```
+```{r load-packages}
+install.packages("RColorBrewer")
+library(RColorBrewer)
+```
+
 
 ```{r one-viz}
 nyc_squirrels_colors <- nyc_squirrels %>% 
@@ -75,7 +80,9 @@ nyc_squirrels %>%
    scale_color_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   geom_point()
 ```
-
+```{r install-leaflet}
+library("leaflet")
+```
 
 ```{r leaflet-map-color}
 
@@ -123,21 +130,16 @@ nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3)
 ```
 
 
-```{r}
+```{r heat-map}
 library(ggplot2)
 library(hrbrthemes)
-ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel_number)) + 
-  geom_tile() +
-  scale_fill_distiller(palette = "RdPu") +
-  theme_ipsum() +
-  scale_x_discrete() +
-  scale_y_discrete(labels = )
-```
-# scale label manual
-# use scale to add manual axis labels
-=======
-  theme_ipsum()
 
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(hectare_number = as.numeric(hectare_number)) 
+
+ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel_number)) + 
+  geom_tile() + 
+  scale_fill_brewer(palette = "Reds")
 ```
 
 
@@ -167,7 +169,6 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
     theme(plot.title = element_text(hjust = 0.5)) 
 ```
 
-
 ```{r Color of Squirrels Based on Age }
  nyc_squirrels %>%
   filter(age !='?') %>%
@@ -179,6 +180,6 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
     theme(plot.title = element_text(hjust = 0.5)) +
     labs( x='Age Group', y= 'Proportion') +
     labs(fill='Primary Fur Color') +
-    scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
+    scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
 ```
 
