@@ -1,25 +1,16 @@
+```{r}
+library(leaflet)
+library(ggplot2)
+library(tidyverse)
+#install.packages("gganimate")
+library(gganimate)
+library(lubridate)
+```
+
 
 ```{r load-data, echo = FALSE}
-??nyc_squirrels
+
 nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
-```
-
-```{r load-packages}
-install.packages("RColorBrewer")
-library(RColorBrewer)
-library(paletteer)
-library("leaflet")
-library(stringr)
-library(ggplot2)
-library(hrbrthemes)
-```
-
-
-```{r one-viz}
-nyc_squirrels_colors <- nyc_squirrels %>% 
-  filter(is.na(primary_fur_color) == TRUE) %>%
-  ggplot(aes(x = long, y = lat, color = colors)) +     
-  geom_point() 
 ```
 
 ```{r cleaning-data}
@@ -55,7 +46,7 @@ nyc_squirrels <- nyc_squirrels %>%
 ```{r behavior-density-faceted-by-weekend}
 ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week) +
+  facet_wrap(~day_of_week) + 
   scale_fill_viridis_d()
 ```
 
@@ -70,29 +61,26 @@ ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior, y = primary_fu
 ```{r noise-faceted-by-weekend}
 ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week)
+  facet_wrap(~day_of_week) +
+  scale_fill_viridis_d()
 ```
 
 ```{r noise-faceted-by-weekend-remove-no-noise}
-## Can i remove the "no noise" tatobservation? 
-# filter or drop factor levels, forcats package
-nyc_squirrels <- nyc_squirrels %>%
-  mutate(noise = as.factor(noise)) %>%
-  filter(noise != "no noise") %>%
-  mutate(noise = fct_drop(noise))
-  
-  ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
+## Can i remove the "no noise" observation? 
+ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week) 
+  facet_wrap(~day_of_week) + 
+  scale_fill_viridis_d()
 ```
 
-```{r viz-of-position-by-squirrel-number}
+```{r}
 nyc_squirrels %>%
   ggplot(na.rm = TRUE, aes(x = long, y = lat, color = primary_fur_color)) +
   labs(title = "Position of Squirrel by Fur Color") +
    scale_color_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
   geom_point()
 ```
+
 
 ```{r leaflet-map-color}
 pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
@@ -103,12 +91,13 @@ nyc_squirrels %>%
   leaflet() %>%
   addTiles() %>%
   addCircleMarkers(lng = ~long,
-                   lat = ~lat, radius = 3, color = ~pal_coats(primary_fur_color), stroke = FALSE, fillOpacity = 0.9) %>%
+                   lat = ~lat, radius = 3, color = ~pal_coats(primary_fur_color), stroke = FALSE, fillOpacity = 0.5) %>%
   addLegend(position ="bottomright",pal = pal_coats, values = ~primary_fur_color)
 ```
 
 ```{r leaflet_behavior}
-pal_behavior <- colorFactor(c("#440154FF", "#404788FF", "#287D8EFF", "#55C667FF", "#FDE725FF"), domain = c("chasing", "climbing", "eating", "running", "other"))
+
+pal_behavior <- colorFactor(c("steelblue", "springgreen", "slateblue", "violet", "tomato"), domain = c("chasing", "climbing", "eating", "running", "other"))
 
 #Locations based on behavior
 nyc_squirrels %>%
@@ -116,9 +105,10 @@ nyc_squirrels %>%
   leaflet() %>%
   addTiles() %>%
   addCircleMarkers(lng = ~long,
-                   lat = ~lat, radius = 3, color = ~pal_behavior(behavior), stroke = FALSE, fillOpacity = 0.9) %>%
+                   lat = ~lat, radius = 3, color = ~pal_behavior(behavior), stroke = FALSE, fillOpacity = 0.5) %>%
   addLegend(position ="bottomright",pal = pal_behavior, values = ~behavior)
 ```
+
 
 ```{r pie-chart-fur-color}
 ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
@@ -130,28 +120,82 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
   theme_void()
 ```
 
-```{r defining-variables-for-heat-map}
+```{r}
+library(stringr)
 nyc_squirrels$hectare_number <- str_sub(nyc_squirrels$hectare,1,2) 
 nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3) 
 ```
 
 
-```{r heat-map}
-library(ggplot2)
-library(hrbrthemes)
+```{r}
 
 nyc_squirrels <- nyc_squirrels %>%
-  mutate(hectare_number = as.numeric(hectare_number)) 
+  mutate(date = mdy(date),
+         hectare_number = as.numeric(hectare_number),
+         day = day(date))
 
-ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel_number)) + 
+```
+
+
+```{r}
+
+# Library
+library(ggspatial)
+ 
+# For google map, you have to give the center of the window you are looking at.
+# Possibility for the map type argument: terrain / satellite / roadmap / hybrid
+ 
+map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
+  annotation_map_tile(type = "thunderforestoutdoors") +
+  geom_spatial_point()
+
+map_anim <- map1 +
+  transition_time(day)  +
+  labs(title = "Day: {frame_time}") 
+
+animate(map_anim, renderer = ffmpeg_renderer())
+
+anim_save("map_anim.gif")
+
+```
+
+
+
+```{r}
+
+nyc_squirrels_sum <- nyc_squirrels %>%
+  group_by(day, hectare_letter, hectare_number) %>%
+  summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
+
+p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
   geom_tile() + 
-  scale_fill_viridis_c(option = "plasma", direction = -1)
+  facet_wrap(~day)
+  
 
-# Could also set up bins 
+p2
+
+p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() 
+
+p3 <- p1 + 
+  transition_time(day) +
+  labs(title = "Day: {frame_time}") +
+  shadow_mark()
+
+animate(p3, renderer = ffmpeg_renderer())
+
+anim_save("heatmap3.gif")
+
+```
+# scale label manual
+# use scale to add manual axis labels
+=======
+
 ```
 
 
 ```{r Age Distribution of Squirrels }
+
 squirrel_ages <- nyc_squirrels %>%
   mutate(age = na_if(age,'?'), n=1) %>%
   group_by(age) %>%
@@ -161,6 +205,7 @@ squirrel_ages <- nyc_squirrels %>%
   summarize(age, age_sum, total, dummy, pct_age = (age_sum/total)*100)
 
 squirrel_ages[is.na(squirrel_ages)] <- "Unknown"
+
 
 ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
   geom_col() +
@@ -173,10 +218,13 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
          fill='Age Group') +
    ggtitle('Central Park Squirrel Population by Age Group') +
     theme(plot.title = element_text(hjust = 0.5)) 
+    
 ```
 
+
 ```{r Color of Squirrels Based on Age }
-nyc_squirrels %>%
+
+ nyc_squirrels %>%
   filter(age !='?') %>%
   mutate(n=1)%>%
   group_by(age) %>%
@@ -186,11 +234,6 @@ nyc_squirrels %>%
     theme(plot.title = element_text(hjust = 0.5)) +
     labs( x='Age Group', y= 'Proportion') +
     labs(fill='Primary Fur Color') +
-    scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
-```
-
-
-```{r}
-
+    scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
 ```
 
