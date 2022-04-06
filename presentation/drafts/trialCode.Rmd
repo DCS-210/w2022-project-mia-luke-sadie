@@ -49,7 +49,8 @@ nyc_squirrels <- nyc_squirrels %>%
 ```{r behavior-density-faceted-by-weekend}
 ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week)
+  facet_wrap(~day_of_week) +
+  scale_fill_viridis_d()
 ```
 
 ```{r stacked_bar}
@@ -131,10 +132,7 @@ nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3)
 
 ```{r heat-map}
 library(ggplot2)
-library(hrbrthemes)
-
-# scale label manual
-# use scale to add manual axis labels
+library(hrbrthemes)=
 
 nyc_squirrels <- nyc_squirrels %>%
   mutate(hectare_number = as.numeric(hectare_number)) 
@@ -185,4 +183,8 @@ nyc_squirrels %>%
     scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
 ```
 
+
+```{r}
+
+```
 
