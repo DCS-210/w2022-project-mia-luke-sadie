@@ -138,15 +138,14 @@ nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3)
 
 
 ```{r heat-map}
-library(ggplot2)
-library(hrbrthemes)
 
 nyc_squirrels <- nyc_squirrels %>%
   mutate(hectare_number = as.numeric(hectare_number)) 
 
-ggplot(nyc_squirrels, aes(hectare_number, hectare_letter, fill= hectare_squirrel_number)) + 
+ggplot(nyc_squirrels, aes(hectare_letter, hectare_number, fill= hectare_squirrel_number)) + 
   geom_tile() + 
-  scale_fill_viridis_c(option = "plasma", direction = -1)
+  scale_fill_viridis_c(option = "plasma", direction = -1) +
+  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
 
 # Could also set up bins 
 ```
@@ -193,10 +192,13 @@ nyc_squirrels %>%
  
 # For google map, you have to give the center of the window you are looking at.
 # Possibility for the map type argument: terrain / satellite / roadmap / hybrid
+
+pal_behavior <- colorFactor(c("#440154FF", "#404788FF", "#287D8EFF", "#55C667FF", "#FDE725FF"), domain = c("chasing", "climbing", "eating", "running", "other"))
  
 map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
   annotation_map_tile(type = "thunderforestoutdoors") +
-  geom_spatial_point()
+  geom_spatial_point() +
+  scale_color_viridis_d() 
 
 map_anim <- map1 +
   transition_time(day)  +
@@ -215,15 +217,19 @@ nyc_squirrels_sum <- nyc_squirrels %>%
   group_by(day, hectare_letter, hectare_number) %>%
   summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
 
-p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
+p2 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, hectare_number, fill= squirrel_activity)) + 
   geom_tile() + 
-  facet_wrap(~day)
+  facet_wrap(~day) + 
+  scale_fill_viridis_c(option = "plasma", direction = -1) +
+  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
   
 
 p2
 
-p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
-  geom_tile() 
+p1 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, as.numeric(hectare_number), fill= squirrel_activity)) + 
+  geom_tile() + 
+  scale_fill_viridis_c(option = "plasma", direction = -1) +
+  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
 
 p3 <- p1 + 
   transition_time(day) +
