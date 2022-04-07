@@ -71,7 +71,8 @@ ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior, y = primary_fu
 ```{r noise-faceted-by-weekend}
 ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week)
+  facet_wrap(~day_of_week) + 
+  scale_fill_viridis_d()
 ```
 
 ```{r noise-faceted-by-weekend-remove-no-noise}
@@ -84,7 +85,8 @@ nyc_squirrels_noise <- nyc_squirrels %>%
   
   ggplot(nyc_squirrels_noise, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week) 
+  facet_wrap(~day_of_week) +
+  scale_fill_viridis_d()
 ```
 
 ```{r viz-of-position-by-squirrel-number}
@@ -242,7 +244,7 @@ anim_save("heatmap3.gif")
 
 ```
 
-```{r Age Distribution of Squirrels }
+```{r Age-Dist-of-squirrels }
 
 squirrel_ages <- nyc_squirrels %>%
   mutate(age = na_if(age,'?'), n=1) %>%
