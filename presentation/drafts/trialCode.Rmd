@@ -11,6 +11,8 @@ library("leaflet")
 library(stringr)
 library(ggplot2)
 library(hrbrthemes)
+library(ggspatial)
+library(gifski)
 ```
 
 
@@ -187,6 +189,79 @@ nyc_squirrels %>%
     labs(fill='Primary Fur Color') +
     scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
 ```
+```{r leaflet-animation}
+ 
+# For google map, you have to give the center of the window you are looking at.
+# Possibility for the map type argument: terrain / satellite / roadmap / hybrid
+ 
+map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
+  annotation_map_tile(type = "thunderforestoutdoors") +
+  geom_spatial_point()
 
+map_anim <- map1 +
+  transition_time(day)  +
+  labs(title = "Day: {frame_time}") 
+
+animate(map_anim, renderer = gifski_renderer())
+
+anim_save("map_anim.gif", anim = last_animation())
+
+```
+
+
+```{r hectare-animation}
+
+nyc_squirrels_sum <- nyc_squirrels %>%
+  group_by(day, hectare_letter, hectare_number) %>%
+  summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
+
+p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() + 
+  facet_wrap(~day)
+  
+
+p2
+
+p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() 
+
+p3 <- p1 + 
+  transition_time(day) +
+  labs(title = "Day: {frame_time}") +
+  shadow_mark()
+
+animate(p3, renderer = gifski_renderer())
+
+anim_save("heatmap3.gif")
+
+```
+
+```{r Age Distribution of Squirrels }
+
+squirrel_ages <- nyc_squirrels %>%
+  mutate(age = na_if(age,'?'), n=1) %>%
+  group_by(age) %>%
+  summarize(age_sum = sum(n)) %>%
+  ungroup() %>%
+  mutate(total = sum(age_sum), dummy = '') %>%
+  summarize(age, age_sum, total, dummy, pct_age = (age_sum/total)*100)
+
+squirrel_ages[is.na(squirrel_ages)] <- "Unknown"
+
+
+ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
+  geom_col() +
+  geom_text(aes(label=paste0(round(pct_age,digits=2), "%")), 
+            position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Paired") +
+    theme_minimal(base_size = 16) +
+    labs(x = "Total Population", 
+         y ="Percentage", 
+         fill='Age Group') +
+   ggtitle('Central Park Squirrel Population by Age Group') +
+    theme(plot.title = element_text(hjust = 0.5)) 
+    
+    
+```
 
 
