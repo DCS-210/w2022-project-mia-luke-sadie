@@ -5,7 +5,6 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 ```
 
 ```{r load-packages}
-install.packages("RColorBrewer")
 library(RColorBrewer)
 library(paletteer)
 library("leaflet")
@@ -76,12 +75,12 @@ ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
 ```{r noise-faceted-by-weekend-remove-no-noise}
 ## Can i remove the "no noise" tatobservation? 
 # filter or drop factor levels, forcats package
-nyc_squirrels <- nyc_squirrels %>%
+nyc_squirrels_noise <- nyc_squirrels %>%
   mutate(noise = as.factor(noise)) %>%
   filter(noise != "no noise") %>%
   mutate(noise = fct_drop(noise))
   
-  ggplot(nyc_squirrels, aes(x = noise, color = noise, fill = noise)) +
+  ggplot(nyc_squirrels_noise, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
   facet_wrap(~day_of_week) 
 ```
@@ -190,7 +189,4 @@ nyc_squirrels %>%
 ```
 
 
-```{r}
-
-```
 

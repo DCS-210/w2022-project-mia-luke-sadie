@@ -140,7 +140,9 @@ nyc_squirrels <- nyc_squirrels %>%
 ```{r}
 
 # Library
+#install.packages("gifski")
 library(ggspatial)
+library(gifski)
  
 # For google map, you have to give the center of the window you are looking at.
 # Possibility for the map type argument: terrain / satellite / roadmap / hybrid
@@ -153,22 +155,39 @@ map_anim <- map1 +
   transition_time(day)  +
   labs(title = "Day: {frame_time}") 
 
-animate(map_anim, renderer = ffmpeg_renderer())
+animate(map_anim, renderer = gifski_renderer())
 
-anim_save("map_anim.gif")
-
-```
-
-
-
-
-```
-# scale label manual
-# use scale to add manual axis labels
-=======
+anim_save("map_anim.gif", anim = last_animation())
 
 ```
 
+
+```{r}
+
+nyc_squirrels_sum <- nyc_squirrels %>%
+  group_by(day, hectare_letter, hectare_number) %>%
+  summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
+
+p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() + 
+  facet_wrap(~day)
+  
+
+p2
+
+p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() 
+
+p3 <- p1 + 
+  transition_time(day) +
+  labs(title = "Day: {frame_time}") +
+  shadow_mark()
+
+animate(p3, renderer = gifski_renderer())
+
+anim_save("heatmap3.gif")
+
+```
 
 ```{r Age Distribution of Squirrels }
 
@@ -198,9 +217,7 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
     
 ```
 
-
 ```{r Color of Squirrels Based on Age }
-
  nyc_squirrels %>%
   filter(age !='?') %>%
   mutate(n=1)%>%
@@ -211,6 +228,6 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
     theme(plot.title = element_text(hjust = 0.5)) +
     labs( x='Age Group', y= 'Proportion') +
     labs(fill='Primary Fur Color') +
-    scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
+    scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
 ```
 
