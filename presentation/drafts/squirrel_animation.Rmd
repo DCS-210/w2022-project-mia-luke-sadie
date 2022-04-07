@@ -161,30 +161,6 @@ anim_save("map_anim.gif")
 
 
 
-```{r}
-
-nyc_squirrels_sum <- nyc_squirrels %>%
-  group_by(day, hectare_letter, hectare_number) %>%
-  summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
-
-p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
-  geom_tile() + 
-  facet_wrap(~day)
-  
-
-p2
-
-p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
-  geom_tile() 
-
-p3 <- p1 + 
-  transition_time(day) +
-  labs(title = "Day: {frame_time}") +
-  shadow_mark()
-
-animate(p3, renderer = ffmpeg_renderer())
-
-anim_save("heatmap3.gif")
 
 ```
 # scale label manual
