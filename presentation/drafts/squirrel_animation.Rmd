@@ -140,7 +140,9 @@ nyc_squirrels <- nyc_squirrels %>%
 ```{r}
 
 # Library
+#install.packages("gifski")
 library(ggspatial)
+library(gifski)
  
 # For google map, you have to give the center of the window you are looking at.
 # Possibility for the map type argument: terrain / satellite / roadmap / hybrid
@@ -153,7 +155,7 @@ map_anim <- map1 +
   transition_time(day)  +
   labs(title = "Day: {frame_time}") 
 
-animate(map_anim, renderer = ffmpeg_renderer())
+animate(map_anim, renderer = gifski_renderer())
 
 anim_save("map_anim.gif", anim = last_animation())
 
@@ -182,7 +184,7 @@ p3 <- p1 +
   labs(title = "Day: {frame_time}") +
   shadow_mark()
 
-animate(p3, renderer = ffmpeg_renderer())
+animate(p3, renderer = gifski_renderer())
 
 anim_save("heatmap3.gif")
 
