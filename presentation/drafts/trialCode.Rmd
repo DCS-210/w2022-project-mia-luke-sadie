@@ -85,7 +85,8 @@ nyc_squirrels_noise <- nyc_squirrels %>%
   
   ggplot(nyc_squirrels_noise, aes(x = noise, color = noise, fill = noise)) +
   geom_histogram(stat = "count") +
-  facet_wrap(~day_of_week) 
+  facet_wrap(~day_of_week) +
+  scale_fill_viridis_d()
 ```
 
 ```{r viz-of-position-by-squirrel-number}
