@@ -155,7 +155,7 @@ map_anim <- map1 +
 
 animate(map_anim, renderer = ffmpeg_renderer())
 
-anim_save("map_anim.gif")
+anim_save("map_anim.gif", anim = last_animation())
 
 ```
 
@@ -187,12 +187,6 @@ animate(p3, renderer = ffmpeg_renderer())
 anim_save("heatmap3.gif")
 
 ```
-# scale label manual
-# use scale to add manual axis labels
-=======
-
-```
-
 
 ```{r Age Distribution of Squirrels }
 
@@ -221,9 +215,7 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
     
 ```
 
-
 ```{r Color of Squirrels Based on Age }
-
  nyc_squirrels %>%
   filter(age !='?') %>%
   mutate(n=1)%>%
@@ -234,6 +226,6 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
     theme(plot.title = element_text(hjust = 0.5)) +
     labs( x='Age Group', y= 'Proportion') +
     labs(fill='Primary Fur Color') +
-    scale_fill_manual(values = c("black", "bisque3", "dimgray", "lightskyblue1"))
+    scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
 ```
 
