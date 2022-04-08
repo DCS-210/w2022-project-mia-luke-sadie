@@ -246,7 +246,6 @@ squirrel_ages <- nyc_squirrels %>%
 
 squirrel_ages[is.na(squirrel_ages)] <- "Unknown"
 
-
 ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
   geom_col() +
   geom_text(aes(label=paste0(round(pct_age,digits=2), "%")), 
@@ -258,7 +257,6 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
          fill='Age Group') +
    ggtitle('Central Park Squirrel Population by Age Group') +
     theme(plot.title = element_text(hjust = 0.5)) 
-    
     
 ```
 
