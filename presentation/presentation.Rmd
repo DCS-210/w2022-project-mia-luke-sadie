@@ -1,7 +1,7 @@
 ---
-title: "Squirrels"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "The NYC Squirrel Census & What We Can Learn From It"
+subtitle: ""
+author: "Mia Gates, Sadie Kriegler, and Luke Morisette"
 institute: "Bates College"
 date: "`r Sys.Date()`"
 output:
@@ -22,6 +22,14 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(RColorBrewer)
+library(paletteer)
+library("leaflet")
+library(stringr)
+library(ggplot2)
+library(hrbrthemes)
+library(ggspatial)
+library(gifski)
 ```
 
 ```{r setup, include=FALSE}
@@ -31,9 +39,10 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 ```{r load-data, include=FALSE}
 # Load your data here
+nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
 ```
 
-```{r}
+```{r, echo=FALSE}
 style_xaringan(
   title_slide_background_image = "img/confetti.jpg"
 )
@@ -48,11 +57,105 @@ class: center, middle
 
 class: inverse, center, middle
 
-# Section title
+# Introduction to Dataset Slide
 
 ---
 
-# Hello World
+# Information Slide 1 - Demographics of park
+
+```{r cleaning-data, echo=FALSE}
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(day_of_week = case_when(
+    date %in% c(10062018, 10072018, 10132018, 10142018, 10202018, 10212018, 10272018, 10282018) ~ "weekend",
+    TRUE ~ "weekday"
+  ))
+```
+
+```{r behavior-variable-merge, echo=FALSE}
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(behavior = case_when(
+    running == TRUE ~ "running",
+    chasing == TRUE ~ "chasing",
+    climbing == TRUE ~ "climbing",
+    eating == TRUE ~ "eating",
+    foraging == TRUE ~ "eating",
+    TRUE ~ "other"
+  ))
+```
+
+```{r noise-variable-merge, echo=FALSE}
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(noise = case_when(
+    kuks == TRUE ~ "kuks",
+    quaas == TRUE ~ "quaas",
+    moans == TRUE ~ "moans",
+    TRUE ~ "no noise"
+  ))
+```
+
+```{r hectare_number_letter, echo=FALSE}
+library(stringr)
+nyc_squirrels$hectare_number <- str_sub(nyc_squirrels$hectare,1,2) 
+nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3) 
+```
+
+```{r date_variable, echo=FALSE}
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(date = mdy(date),
+         hectare_number = as.numeric(hectare_number),
+         day = day(date))
+```
+
+
+```{r pie-chart-fur-color, fig.alt= "This visualization is a simple pie chart which shows the distribution of squirrel colors within Central Park. This pie chart contains all obbserved squirrels. It shows that about 80% of the squrrels are considered gray, about 10% are considered cinnamon, about 7% are considered N.A or did not have a recorded color, and the last 3% are considered to be black." }
+ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
+  geom_col() + 
+  labs(title = "Distribution of Primary Fur Color Among Squirrels in NYC", x = "", y = "") +
+  coord_polar(theta = "y") + 
+  scale_fill_brewer() + 
+   scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1") +
+  theme_void()
+```
+
+
+```{r Age Distribution of Squirrels, fig.alt= "This visualization is a single stacked bar that breaks down the percentages of squirrels, in the whole data set, by age. The three catagories are juvenile, adult, and na. This visualization shows that in Central park 84.95% of all squirrels can be catagroized as adults, 10.92% of all squirrels can be catagorized as juveniles, and the remaining 4.13% are listed as "NA" (their age could not be determined)."}
+squirrel_ages <- nyc_squirrels %>%
+  mutate(age = na_if(age,'?'), n=1) %>%
+  group_by(age) %>%
+  summarize(age_sum = sum(n)) %>%
+  ungroup() %>%
+  mutate(total = sum(age_sum), dummy = '') %>%
+  summarize(age, age_sum, total, dummy, pct_age = (age_sum/total)*100)
+
+squirrel_ages[is.na(squirrel_ages)] <- "Unknown"
+
+ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
+  geom_col() +
+  geom_text(aes(label=paste0(round(pct_age,digits=2), "%")), 
+            position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Paired") +
+    theme_minimal(base_size = 16) +
+    labs(x = "Total Population", 
+         y ="Percentage", 
+         fill='Age Group') +
+   ggtitle('Central Park Squirrel Population by Age Group') +
+    theme(plot.title = element_text(hjust = 0.5)) 
+```
+
+```{r Color of Squirrels Based on Age, fig.alt= "This data visualization is a stacked bar chart that shows the  distribution of squirrel fur color to age (juvenile or adult). For both adults and juveniles, gray squirrels are the highest percentage of their population - making up about 80% and 76% of the population respectivley. The next highest color is cinnamon squirrels, they make up about 10% of the adult population and 15% of the juvenile population. For both adults and juveniles na vlaues and black squirrels both make up10% collectivley - they stand at aproximatley 5% for each."}
+nyc_squirrels %>%
+  filter(age !='?') %>%
+  mutate(n=1)%>%
+  group_by(age) %>%
+  ggplot() +
+    geom_col(aes(y=n,x=age, fill=primary_fur_color), position="fill") +
+    ggtitle('Demographics of Central Park Squirrels') +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs( x='Age Group', y= 'Proportion') +
+    labs(fill='Primary Fur Color') +
+    scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
+```
+
 
 - Click the `Knit` button to compile your presentation
 
@@ -62,11 +165,68 @@ class: inverse, center, middle
 
 class: inverse, middle, center
 
-# Using xaringan
+# Behavior demographics
+
+```{r behavior-density-faceted-by-weekend, fig.alt = "This data visualization is a bar chart which shows the count of squirrels observed completeing a behavior. This visualizaiton is faceted by weekday and weekend, with one bar chart for each. The data distribution between the weekdays and weekends are identical in the order of frequency of each behavior. For both weedays and weekends behavior in order of popularity consisted of eating, running, climbing, chasing, and "other" respectivley. For weekdays the observed squirrel count eating was around 675 squirrels, the next highest value, running, was observed in around 375 squirrels. These numbers are consistent with minimal varriation on the weekends." }
+ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
+  geom_histogram(stat = "count") +
+  facet_wrap(~day_of_week) +
+  scale_fill_viridis_d()
+```
+
+```{r stacked_bar, fig.alt = "This data visulaization is a stacked bar chart which shows the distribution of squirrels by color as they complete behaviors. For each behavior (chasing, climbing, eating, other, and running) the total count of squirrels completing the behavior is recorded. Then, each category of behavior is broken down into actions completed by differenct colored squirrels. On order of frequencies the behavior displayed by squirrels are as follows: eating, running, climbing, chasing, and other respectivley. Eating was a behavior displayed by about 1400 squirrels. For each bar/behavior, the highest present count of squirrels is grey, as that is the most common color for squirrels to be in central park.Followiung that in each bar is cinnamon, then black, and then NA values." }
+ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior)) + 
+    geom_bar(position = "stack", stat = "count") +
+    scale_fill_manual(values = c("Black", "bisque3", "dimgray"), na.value = "lightskyblue1")
+  
+```
+
+
+```{r noise-faceted-by-weekend-remove-no-noise, fig.alt= "This data visualization is a bar chart that shows the counto fsquirrels observed making a noise, known as "kuks", "quaas", and "moans".This is then faceted into two different charts that show the difference between the weekdays and weekends. This shows that the most observes sound that is made by New York Central Park squirrels are kuks; however it is important to note that the conservation count for weekdays and weekends are 59 squirrels and 42 squirrels respectivley. The next highest value is a quaa which was observed 11 times on weekdays and 22 times on weekdays. Moans were only heard on the weekend, this was only observed once though."}
+
+nyc_squirrels_noise <- nyc_squirrels %>%
+  mutate(noise = as.factor(noise)) %>%
+  filter(noise != "no noise") %>%
+  mutate(noise = fct_drop(noise))
+  
+  ggplot(nyc_squirrels_noise, aes(x = noise, color = noise, fill = noise)) +
+  geom_histogram(stat = "count") +
+  facet_wrap(~day_of_week) +
+  scale_fill_viridis_d()
+```
+
 
 ---
 
-# xaringan
+# leaflet maps 
+
+```{r leaflet-map-color, fig.alt = "This is a leaflet  plot that shows the squirrels location, and their recorded fur color, based on their latitude and longitude when recorded. This visualization creates a graphic ontop of a map of central park, which the viewer can zoom in and out of to explore the individual data points up close. The distribution of colors is completely random across the park, but this visualization makes clear that gray squirrels are much more common than all other squirrels." }
+pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
+
+#Locations based on fur color
+nyc_squirrels %>%
+  filter(!is.na(primary_fur_color)) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~long,
+                   lat = ~lat, radius = 3, color = ~pal_coats(primary_fur_color), stroke = FALSE, fillOpacity = 0.9) %>%
+  addLegend(position ="bottomright",pal = pal_coats, values = ~primary_fur_color)
+```
+
+
+```{r leaflet_behavior, fig.alt = "This is a leaflet  plot that shows the squirrels location, and their recorded bahavior, based on their latitude and longitude when recorded. This visualization creates a graphic ontop of a map of central park, which the viewer can zoom in and out of to explore the individual data points up close. This display of behavior shows no patterns based on location within the park but rather a random display of behaviors (chasing, climbing, eating, running, and other) across the entirety of the park."}
+pal_behavior <- colorFactor(c("#440154FF", "#404788FF", "#287D8EFF", "#55C667FF", "#FDE725FF"), domain = c("chasing", "climbing", "eating", "running", "other"))
+
+#Locations based on behavior
+nyc_squirrels %>%
+  filter(!is.na(behavior)) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~long,
+                   lat = ~lat, radius = 3, color = ~pal_behavior(behavior), stroke = FALSE, fillOpacity = 0.9) %>%
+  addLegend(position ="bottomright",pal = pal_behavior, values = ~behavior)
+```
+
 
 - The presentation is created using the `xaringan` package
 
@@ -78,8 +238,64 @@ class: inverse, middle, center
 
 ---
 
-# Layouts
+# Heatmap and time series graphics 
 
+```{r heat-map, fig.alt= "This data visualization is a heat map that shows the overall density of squirrel location based on the entire data set. Based on loaction, the squirrels are binned into hectares, each time a squirrel is seen in a hectare - the density of the hectare increased by one. The visualization is clear that there are limited patterns to squirrels observed locations, they are failry evently distributed across the entire park. Hectare E14 is the most densley populated squirrel location over the entire time of data series collection, the density displayed in this hectare is around 20 squirrels. The average hectare had less than 5 squirrels spotted in it over the course of data collection. This revels no patterns to where squirrels are seen, but can be indicative of spots with high forestation, high quantities of food, or limited human activity."}
+
+nyc_squirrels <- nyc_squirrels %>%
+  mutate(hectare_number = as.numeric(hectare_number)) 
+
+ggplot(nyc_squirrels, aes(hectare_letter, hectare_number, fill= hectare_squirrel_number)) + 
+  geom_tile() + 
+  scale_fill_viridis_c(option = "plasma", direction = -1) +
+  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
+```
+
+```{r animation tracking behavior over time}
+ 
+# For google map, you have to give the center of the window you are looking at.
+# Possibility for the map type argument: terrain / satellite / roadmap / hybrid
+ 
+map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
+  annotation_map_tile(type = "thunderforestoutdoors") +
+  geom_spatial_point()
+
+map_anim <- map1 +
+  transition_time(day)  +
+  labs(title = "Day: {frame_time}") 
+
+animate(map_anim, renderer = gifski_renderer())
+
+anim_save("map_anim.gif", anim = last_animation())
+
+```
+
+```{r hectare_gif}
+
+nyc_squirrels_sum <- nyc_squirrels %>%
+  group_by(day, hectare_letter, hectare_number) %>%
+  summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
+
+p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() + 
+  facet_wrap(~day)
+  
+
+p2
+
+p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
+  geom_tile() 
+
+p3 <- p1 + 
+  transition_time(day) +
+  labs(title = "Day: {frame_time}") +
+  shadow_mark()
+
+animate(p3, renderer = gifski_renderer())
+
+anim_save("heatmap3.gif")
+
+```
 You can use plain text
 
 - or bullet points
@@ -98,7 +314,8 @@ or text in two columns $^*$
 
 ---
 
-# Code
+# Limitations of the Dataset
+- video proof? 
 
 ```{r}
 
@@ -106,7 +323,7 @@ or text in two columns $^*$
 
 ---
 
-# Plots
+# Suggested Next Steps 
 
 ```{r recode-species, echo = FALSE}
 # In this chunk I'm doing a bunch of analysis that I don't want to present 

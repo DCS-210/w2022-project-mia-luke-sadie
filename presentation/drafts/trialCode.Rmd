@@ -46,6 +46,14 @@ nyc_squirrels <- nyc_squirrels %>%
   ))
 ```
 
+```{r}
+library(stringr)
+nyc_squirrels$hectare_number <- str_sub(nyc_squirrels$hectare,1,2) 
+nyc_squirrels$hectare_letter <- str_sub(nyc_squirrels$hectare,3,3) 
+```
+
+
+
 ```{r behavior-density-faceted-by-weekend, fig.alt = This data visualization is a bar chart which shows the count of squirrels observed completeing a behavior. This visualizaiton is faceted by weekday and weekend, with one bar chart for each. The data distribution between the weekdays and weekends are identical in the order of frequency of each behavior. For both weedays and weekends behavior in order of popularity consisted of eating, running, climbing, chasing, and "other" respectivley. For weekdays the observed squirrel count eating was around 675 squirrels, the next highest value, running, was observed in around 375 squirrels. These numbers are consistent with minimal varriation on the weekends.}
 ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
   geom_histogram(stat = "count") +
@@ -143,7 +151,7 @@ ggplot(nyc_squirrels, aes(hectare_letter, hectare_number, fill= hectare_squirrel
 ```
 
 
-```{r Age Distribution of Squirrels, fig.alt= This data visuyalization is a single stached bar that breaks down the percentages of squirrels, in the whole data set, by age. The three catagories are juvenile, adult, and na. This visualization shows that in Central park 84.95% of all squirrels can be catagroized as adults, 10.92% of all squirrels can be catagorized as juveniles, and the remaining 4.13% are listed as "NA" (their age could not be determined).  }
+```{r Age Distribution of Squirrels, fig.alt= This data visualization is a single stacked bar that breaks down the percentages of squirrels, in the whole data set, by age. The three catagories are juvenile, adult, and na. This visualization shows that in Central park 84.95% of all squirrels can be catagroized as adults, 10.92% of all squirrels can be catagorized as juveniles, and the remaining 4.13% are listed as "NA" (their age could not be determined).  }
 squirrel_ages <- nyc_squirrels %>%
   mutate(age = na_if(age,'?'), n=1) %>%
   group_by(age) %>%

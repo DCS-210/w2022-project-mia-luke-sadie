@@ -138,7 +138,6 @@ nyc_squirrels <- nyc_squirrels %>%
 
 
 ```{r}
-
 # Library
 #install.packages("gifski")
 library(ggspatial)
