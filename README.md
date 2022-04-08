@@ -1,6 +1,6 @@
-Project title
+The NYC Squirrel Census 
 ================
-by Team name
+by Mia Gates, Sadie Kriegler, and Luke Morisette 
 
 ## Summary
 
@@ -27,6 +27,14 @@ your project.
 Our presentation can be found [here](presentation/presentation.html).
 
 ## Data
+
+"NYC SQUIRREL DATABASE"
+
+nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv")
+
+Our dataset has 36 unique variables and 3,023 observations of squirrels. 
+
+The Central Park Squirrel Census is a scientific survey to try to determine the amount of squirrels in Central Park. This data set was collected by 320 individuals over the course of two weeks, they called in to report their findings.
 
 Include a citation for your data here. See
 <http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840> for guidance

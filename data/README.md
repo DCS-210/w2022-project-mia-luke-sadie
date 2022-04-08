@@ -6,6 +6,8 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 
 Our dataset has 36 unique variables and 3,023 observations of squirrels. 
 
+The Central Park Squirrel Census is a scientific survey to try to determine the amount of squirrels in Central Park. This data set was collected by 320 individuals over the course of two weeks, they called in to report their findings.
+
 ## Codebook
 
 - `long`: Longitude
@@ -43,4 +45,8 @@ Our dataset has 36 unique variables and 3,023 observations of squirrels.
 - `borough_boundaries`: Borough boundaries
 - `city_council_districts`: City council districts
 - `police_precincts`: Police precincts
-
+- `behavior`: catagorizes the squirrels behaviro in eating, running, climbing, chasing, and other
+- `noise`: catagorizes the “NA” values of sound outfit from squirrels as “no noise” versus kuks, quaas, and moans  
+- `hectare_number`: separates the number and letter from each other; results in a numeric value tied to a hectare grid
+- `hectare_letter`: separates the number and letter from each other; results in a letter value tied to a hectare grid
+- `day`: pulls the numeric day value out of the date variable, results in a numeric value 
