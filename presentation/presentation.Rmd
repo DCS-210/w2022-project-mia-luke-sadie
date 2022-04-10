@@ -46,24 +46,32 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 
 ```{r, echo=FALSE}
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/bagel-squirrel-el479311939574.jpg"
 )
 ```
 
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## How do squirrels behave in central park? 
 
+Our study attempts to answer a multitude of questions related to the connections between squirrel behaviors and other factors. 
+Are squirrel demographic uniform across the entirety of the park? Is there a correlation between the squirrel population of a given hectare of the park and the environment in which they inhabit? Or the noises that they make in relation to the day of week?
 ---
 
 class: inverse, center, middle
 
-# Introduction to Dataset Slide
+# An Introduction to our dataset: NYC_Squirrels 
+
+This data comes from the New York City Squirrel Census, which is a raw NY data file. The data was collected by a group of volunteers led by Jamie Allen, a humorist and writer, with the hopes of tracking the Eastern gray (Sciurus carolinensis) population in New York. 
+
+- When compiling the total census population, they employed a divide and conquer method, dividing Central Park into 350 hectares. 
+- Then, the volunteers spread out and counted and observed squirrels once in the morning and once at night.
+- They then calculated the total number of squirrels by using a formula developed by Vagn Flyger, a squirrel biologist. 
 
 ---
 
-# Information Slide 1 - Demographics of park
+# The Demographics of Squirrels in Central Park 
 
 ```{r, "cleaning-data", echo=FALSE}
 nyc_squirrels <- nyc_squirrels %>%
@@ -347,57 +355,15 @@ or text in two columns $^*$
 
 # Suggested Next Steps 
 
-```{r, recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
-```
-
-```{r, plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
-```
-
----
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
-
----
-
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
-```
 
 ---
 
 # Images
 
-```{r castle, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80")
+```{heat_map_squirrel_density, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Heat Map of Squirrel Density" ("https://69563a3b36fe4ac9a74bbf3e79b6bf01.app.rstudio.cloud/file_show?path=%2Fcloud%2Fproject%2Fpresentation%2Fheatmap3.gif")}
+
 ```
+
 
 Or you can also include a full page image. See next slide.
 
@@ -421,3 +387,38 @@ background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e69
 `xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
 
 - And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+
+---
+
+## Plot and text
+
+.pull-left[
+- Some text
+- goes here
+]
+.pull-right[
+```{r, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
+# see how I changed out.width and fig.width from defaults
+# to make the figure bigger
+ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
+  geom_boxplot() +
+  theme_minimal()
+```
+]
+
+```{r, recode-species, echo = FALSE}
+# In this chunk I'm doing a bunch of analysis that I don't want to present 
+# in my slides. But I need the resulting data frame for a plot I want to present.
+iris_modified <- iris %>%
+  mutate(Species = fct_other(Species, keep = "setosa"))
+```
+
+```{r, plot-iris, echo = FALSE}
+# Code hidden with echo = FALSE
+# Uses modified iris dataset from previous chunk
+# Play around with height and width until you're happy with the look
+ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+  geom_point() + 
+  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
+```
+

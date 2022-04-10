@@ -31,7 +31,7 @@ nyc_squirrels <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html).
+Our presentation can be found [here](https://dcs-210.github.io/w2022-project-mia-luke-sadie/).
 
 ## Data 
 
