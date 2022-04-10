@@ -290,7 +290,7 @@ map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
 ```
 
 ---
-# Heatmap time series
+# Animated Leaflet Map
 
 <p align="center">
   <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/map_anim.gif" width="1016" height="516" frameBorder="0"></iframe>
@@ -302,15 +302,19 @@ nyc_squirrels_sum <- nyc_squirrels %>%
   group_by(day, hectare_letter, hectare_number) %>%
   summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
 
-p2 <- ggplot(nyc_squirrels_sum, aes(hectare_number, hectare_letter, fill= squirrel_activity)) + 
+p2 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, hectare_number, fill= squirrel_activity)) + 
   geom_tile() + 
-  facet_wrap(~day)
+  facet_wrap(~day) + 
+  scale_fill_viridis_c(option = "plasma", direction = -1) +
+  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
   
 
 p2
 
-p1 <- ggplot(nyc_squirrels_sum, aes(as.numeric(hectare_number), hectare_letter, fill= squirrel_activity)) + 
-  geom_tile() 
+p1 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, as.numeric(hectare_number), fill= squirrel_activity)) + 
+  geom_tile() + 
+  scale_fill_viridis_c(option = "plasma", direction = -1) +
+  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
 
 p3 <- p1 + 
   transition_time(day) +
@@ -322,103 +326,9 @@ animate(p3, renderer = gifski_renderer())
 anim_save("heatmap3.gif")
 
 ```
-```
-
 ---
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-# Limitations of the Dataset
-- video proof? 
-
-```{r}
-
-```
-
----
-
-# Suggested Next Steps 
-
-
----
-
-# Images
-
-```{heat_map_squirrel_density, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Heat Map of Squirrel Density" ("https://69563a3b36fe4ac9a74bbf3e79b6bf01.app.rstudio.cloud/file_show?path=%2Fcloud%2Fproject%2Fpresentation%2Fheatmap3.gif")}
-
-```
-
-
-Or you can also include a full page image. See next slide.
-
----
-
-background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80)
-
----
-
-
-
----
-
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
-
----
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
-
-```{r, recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
-```
-
-```{r, plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
-```
+# Animated Heatmap
+<p align="center">
+  <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/heatmap3.gif" width="1016" height="516" frameBorder="0"></iframe>
+</p>
 
