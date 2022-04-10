@@ -61,13 +61,12 @@ Are squirrel demographic uniform across the entirety of the park? Is there a cor
 
 class: inverse, center, middle
 
-# An Introduction to our dataset: NYC_Squirrels 
+# An Introduction to our dataset
+##NYC_Squirrels 
 
 This data comes from the New York City Squirrel Census, which is a raw NY data file. The data was collected by a group of volunteers led by Jamie Allen, a humorist and writer, with the hopes of tracking the Eastern gray (Sciurus carolinensis) population in New York. 
 
-- When compiling the total census population, they employed a divide and conquer method, dividing Central Park into 350 hectares. 
-- Then, the volunteers spread out and counted and observed squirrels once in the morning and once at night.
-- They then calculated the total number of squirrels by using a formula developed by Vagn Flyger, a squirrel biologist. 
+When compiling the total census population, they employed a divide and conquer method, dividing Central Park into 350 hectares. Then, the volunteers spread out and counted and observed squirrels once in the morning and once at night.They then calculated the total number of squirrels by using a formula developed by Vagn Flyger, a squirrel biologist. 
 
 ---
 
@@ -169,10 +168,6 @@ nyc_squirrels %>%
     scale_fill_manual(values = c("black", "bisque3", "dimgray"), na.value = "lightskyblue1")
 ```
 
-
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
 
 ---
 
