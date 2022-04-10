@@ -233,6 +233,7 @@ nyc_squirrels %>%
 # Where are different behaviors occuring in Central Park at the time of squirrel sghting?
 
 ```{r, "leaflet_behavior", fig.alt = "This is a leaflet  plot that shows the squirrels location, and their recorded bahavior, based on their latitude and longitude when recorded. This visualization creates a graphic ontop of a map of central park, which the viewer can zoom in and out of to explore the individual data points up close. This display of behavior shows no patterns based on location within the park but rather a random display of behaviors (chasing, climbing, eating, running, and other) across the entirety of the park"}
+
 pal_behavior <- colorFactor(c("#440154FF", "#404788FF", "#287D8EFF", "#55C667FF", "#FDE725FF"), domain = c("chasing", "climbing", "eating", "running", "other"))
 
 #Locations based on behavior
@@ -242,7 +243,7 @@ nyc_squirrels %>%
   addTiles() %>%
   addCircleMarkers(lng = ~long,
                    lat = ~lat, radius = 3, color = ~pal_behavior(behavior), stroke = FALSE, fillOpacity = 0.9) %>%
-  addLegend(position ="bottomright",pal = pal_behavior, values = ~behavior)
+  addLegend(position ="bottomright",pal = pal_behavior, values = ~behavior) 
 ```
 
 
@@ -265,30 +266,8 @@ ggplot(nyc_squirrels, aes(hectare_letter, hectare_number, fill= hectare_squirrel
 
 # Where do different squirrel behaviors occur over time?
 
-```{r, "animation tracking behavior over time"}
- 
-# For google map, you have to give the center of the window you are looking at.
-# Possibility for the map type argument: terrain / satellite / roadmap / hybrid
- 
-map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
-  annotation_map_tile(type = "thunderforestoutdoors") +
-  geom_spatial_point()
-
- map_anim <- map1 +
-   transition_time(day)  +
-   labs(title = "Day: {frame_time}") 
-
- animate(map_anim, renderer = gifski_renderer())
-
- anim_save("map_anim.gif", anim = last_animation())
-
-```
-
----
-
-
 <p align="center">
-  <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/map_anim.gif" width="1016" height="516" frameBorder="0"></iframe>
+  <iframe src="https://69563a3b36fe4ac9a74bbf3e79b6bf01.app.rstudio.cloud/file_show?path=%2Fcloud%2Fproject%2Fpresentation%2Fdrafts%2Fmap_anim.gif" width="1000" height="500" frameBorder="0"></iframe>
 </p>
 
 ---
@@ -330,4 +309,17 @@ anim_save("heatmap3.gif")
 <p align="center">
   <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/heatmap3.gif" width="1016" height="516" frameBorder="0"></iframe>
 </p>
+
+---
+#Limitations to the Dataset
+
+- The squirrel census is citizen reported which leaves room for many count errors and identification issues. 
+- This dataset is also centered in Central Park New York which only gives us a sample of data from a single area versus the whole of New York. 
+- Limited information on who is collecting the data, other than that they are volunteering to count squirrels, so we have to make assumptions about their effectiveness in data collection (i.e. are these kids? retirees? squirrel fanatics?).
+
+---
+#Suggested Next Steps
+
+- Conduct a revised NYC Squirrel census that is more encompassing of area (takes into account humans, other areas of New York, and a better tracking system)
+
 
