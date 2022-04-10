@@ -320,6 +320,10 @@ anim_save("heatmap3.gif")
 ---
 #Suggested Next Steps
 
-- Conduct a revised NYC Squirrel census that is more encompassing of area (takes into account humans, other areas of New York, and a better tracking system)
+- Conduct a revised NYC Squirrel census that is more encompassing of area (takes into account humans, other areas of New York, and other animals in the area)
+
+- Find a better way to tack the squirrels!! GPS tracking or tags could eliminate double sightings and would make identification  easier for the individual reporting a squirrel. This would also be beneficial for a longitudinal study of squirrel behavior and patterns. 
+
+
 
 
