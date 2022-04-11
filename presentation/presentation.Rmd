@@ -253,8 +253,26 @@ nyc_squirrels %>%
 ---
 ## Where do different squirrel behaviors occur over time?
 
+```{r, "leaflet animation", fig.alt = "This visualization is an animated leaflet plot that shows squirrel behaviors over time. The figure maps the behavior observations based on their location, and tracking for time. This display of behavior shows no patterns based on location within the park but rather a random display of behaviors (chasing, climbing, eating, running, and other) across the entirety of the park"}
+
+# pal_behavior <- colorFactor(c("#440154FF", "#404788FF", "#287D8EFF", "#55C667FF", "#FDE725FF"), domain = c("chasing", "climbing", "eating", "running", "other"))
+ 
+#map1 <- ggplot(nyc_squirrels, aes(x = long, y = lat, color = behavior)) +
+#  annotation_map_tile(type = "thunderforestoutdoors") +
+#  geom_spatial_point() +
+#  scale_color_viridis_d() 
+
+#map_anim <- map1 +
+#  transition_time(day)  +
+#  labs(title = "Day: {frame_time}") 
+
+#animate(map_anim, renderer = gifski_renderer())
+
+#anim_save("map_anim.gif", anim = last_animation())
+```
+
 <p align="center">
-  <iframe src="https://69563a3b36fe4ac9a74bbf3e79b6bf01.app.rstudio.cloud/file_show?path=%2Fcloud%2Fproject%2Fpresentation%2Fdrafts%2Fmap_anim.gif" width="1000" height="500" frameBorder="0"></iframe>
+  <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/map_anim.gif" width="1000" height="250" frameBorder="0"></iframe>
 </p>
 
 ---
@@ -276,7 +294,7 @@ ggplot(nyc_squirrels, aes(hectare_letter, hectare_number, fill= hectare_squirrel
 
 ## Where are squirrels sighted over time? 
 
-```{r heatmap_timeseries}
+```{r heatmap_timeseries, out.width="50%", fig.alt = "This data visualization is an animated heatmap that shows the changing density of squirrels over the course of the observation period. Similar to the previous heatmap, the squirrels are binned into hectares based on location, each time a squirrel is seen in a hectare - the density of the hectare increased by one. The visualization is clear that there are limited patterns to squirrels observed locations, they are failry evently distributed across the entire park. Hectare E14 is the most densley populated squirrel location over the entire time of data series collection, the density displayed in this hectare is around 20 squirrels. The average hectare had less than 5 squirrels spotted in it over the course of data collection. This revels no patterns to where squirrels are seen, but can be indicative of spots with high forestation, high quantities of food, or limited human activity"}
 
 nyc_squirrels_sum <- nyc_squirrels %>%
   group_by(day, hectare_letter, hectare_number) %>%
@@ -307,7 +325,7 @@ nyc_squirrels_sum <- nyc_squirrels %>%
 
 ```
 <p align="center">
-  <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/heatmap3.gif" width="1016" height="516" frameBorder="0"></iframe>
+  <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/heatmap3.gif" width="815" height="506" frameBorder="0"></iframe>
 </p>
 
 ---
