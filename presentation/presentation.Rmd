@@ -116,7 +116,7 @@ nyc_squirrels <- nyc_squirrels %>%
 ```
 
 
-```{r,out.height=400, out.width= 400, "pie-chart-fur-color", warning=FALSE, out.width="100%", fig.width=4, echo=FALSE, fig.alt = "This visualization is a simple pie chart which shows the distribution of squirrel colors within Central Park. This pie chart contains all obbserved squirrels. It shows that about 80% of the squrrels are considered gray, about 10% are considered cinnamon, about 7% are considered N.A or did not have a recorded color, and the last 3% are considered to be black"}
+```{r,out.width = "60%", "pie-chart-fur-color", warning=FALSE, out.width="100%", fig.width=4, echo=FALSE, fig.alt = "This visualization is a simple pie chart which shows the distribution of squirrel colors within Central Park. This pie chart contains all obbserved squirrels. It shows that about 80% of the squrrels are considered gray, about 10% are considered cinnamon, about 7% are considered N.A or did not have a recorded color, and the last 3% are considered to be black"}
 ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
   geom_col() + 
   labs(title = "Distribution of Primary Fur Color Among Squirrels in NYC", x = "", y = "") +
