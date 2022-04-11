@@ -36,7 +36,7 @@ library(gganimate)
 
 ```{r, "setup", include=FALSE}
 # For better figure resolution
-knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%", warning = FALSE, message = FALSE, echo = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.asp = 0.618, out.width = "75%", warning = FALSE, message = FALSE, echo = FALSE)
 ```
 
 ```{r, "load-data", include=FALSE}
@@ -70,7 +70,7 @@ When compiling the total census population, Allen and his volunteers employed a 
 
 ---
 
-# What are the color demographics of squirrels in Central Park?
+## What are the color demographics of squirrels in Central Park?
 
 ```{r, "cleaning-data", echo=FALSE}
 nyc_squirrels <- nyc_squirrels %>%
@@ -116,7 +116,7 @@ nyc_squirrels <- nyc_squirrels %>%
 ```
 
 
-```{r,out.width = "60%", "pie-chart-fur-color", warning=FALSE, out.width="100%", fig.width=4, echo=FALSE, fig.alt = "This visualization is a simple pie chart which shows the distribution of squirrel colors within Central Park. This pie chart contains all obbserved squirrels. It shows that about 80% of the squrrels are considered gray, about 10% are considered cinnamon, about 7% are considered N.A or did not have a recorded color, and the last 3% are considered to be black"}
+```{r,out.width = "60%", "pie-chart-fur-color", warning=FALSE, echo=FALSE, fig.alt = "This visualization is a simple pie chart which shows the distribution of squirrel colors within Central Park. This pie chart contains all obbserved squirrels. It shows that about 80% of the squrrels are considered gray, about 10% are considered cinnamon, about 7% are considered N.A or did not have a recorded color, and the last 3% are considered to be black"}
 ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_fur_color)) +
   geom_col() + 
   labs(title = "Distribution of Primary Fur Color Among Squirrels in NYC", x = "", y = "") +
@@ -128,9 +128,9 @@ ggplot(data = nyc_squirrels, aes(x = "", y = primary_fur_color, fill = primary_f
 
 ---
 
-# What is the age distribution of squirrels in Central Park? 
+## What is the age distribution of squirrels in Central Park? 
 
-```{r, keep.source = FALSE, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE, fig.alt= "Age Distribution of Squirrels. This visualization is a single stacked bar that breaks down the percentages of squirrels, in the whole data set, by age. The three catagories are juvenile, adult, and na. This visualization shows that in Central park 84.95% of all squirrels can be catagroized as adults, 10.92% of all squirrels can be catagorized as juveniles, and the remaining 4.13% are listed as NA (their age could not be determined)"}
+```{r, keep.source = FALSE, warning=FALSE, echo=FALSE, fig.alt= "Age Distribution of Squirrels. This visualization is a single stacked bar that breaks down the percentages of squirrels, in the whole data set, by age. The three catagories are juvenile, adult, and na. This visualization shows that in Central park 84.95% of all squirrels can be catagroized as adults, 10.92% of all squirrels can be catagorized as juveniles, and the remaining 4.13% are listed as NA (their age could not be determined)"}
 squirrel_ages <- nyc_squirrels %>%
   mutate(age = na_if(age,'?'), n=1) %>%
   group_by(age) %>%
@@ -155,7 +155,7 @@ ggplot(squirrel_ages, aes(x=dummy, y= pct_age, fill=age)) +
 ```
 
 ---
-# What is the proportional distribution of fur colors based on age group in Central Park squirrels?
+## What is the proportional distribution of fur colors based on age group in Central Park squirrels?
 ```{r, fig.alt= "Color of Squirrels Based on Age. This data visualization is a stacked bar chart that shows the  distribution of squirrel fur color to age (juvenile or adult). For both adults and juveniles, gray squirrels are the highest percentage of their population - making up about 80% and 76% of the population respectivley. The next highest color is cinnamon squirrels, they make up about 10% of the adult population and 15% of the juvenile population. For both adults and juveniles na vlaues and black squirrels both make up10% collectivley - they stand at aproximatley 5% for each"}
 nyc_squirrels %>%
   filter(age !='?') %>%
@@ -172,7 +172,7 @@ nyc_squirrels %>%
 
 ---
 
-# How does squirrel behavior vary based on time of week?
+## How does squirrel behavior vary based on time of week?
 
 ```{r, "behavior-density-faceted-by-weekend", fig.alt = "This data visualization is a bar chart which shows the count of squirrels observed completeing a behavior. This visualizaiton is faceted by weekday and weekend, with one bar chart for each. The data distribution between the weekdays and weekends are identical in the order of frequency of each behavior. For both weedays and weekends behavior in order of popularity consisted of eating, running, climbing, chasing, and other respectivley. For weekdays the observed squirrel count eating was around 675 squirrels, the next highest value, running, was observed in around 375 squirrels. These numbers are consistent with minimal varriation on the weekends"}
 ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
@@ -183,7 +183,7 @@ ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
 
 ---
 
-# Does behavior stay constant across all fur colors?  
+## Does behavior stay constant across all fur colors?  
 ```{r, "stacked_bar", fig.alt = "This data visulaization is a stacked bar chart which shows the distribution of squirrels by color as they complete behaviors. For each behavior (chasing, climbing, eating, other, and running) the total count of squirrels completing the behavior is recorded. Then, each category of behavior is broken down into actions completed by differenct colored squirrels. On order of frequencies the behavior displayed by squirrels are as follows: eating, running, climbing, chasing, and other respectivley. Eating was a behavior displayed by about 1400 squirrels. For each bar/behavior, the highest present count of squirrels is grey, as that is the most common color for squirrels to be in central park.Followiung that in each bar is cinnamon, then black, and then NA values" }
 ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior)) + 
     geom_bar(position = "stack", stat = "count") +
@@ -193,7 +193,7 @@ ggplot(nyc_squirrels, aes(fill = primary_fur_color, x = behavior)) +
 
 ---
 
-# Does the day of the week impact the noises that squirrels make?
+## Does the day of the week impact noises made?
 
 ```{r, "noise-faceted-by-weekend-remove-no-noise", fig.alt= "This data visualization is a bar chart that shows the counto fsquirrels observed making a noise, known as kuks, quaas, and moans. This is then faceted into two different charts that show the difference between the weekdays and weekends. This shows that the most observes sound that is made by New York Central Park squirrels are kuks; however it is important to note that the conservation count for weekdays and weekends are 59 squirrels and 42 squirrels respectivley. The next highest value is a quaa which was observed 11 times on weekdays and 22 times on weekdays. Moans were only heard on the weekend, this was only observed once though"}
 
@@ -211,7 +211,7 @@ nyc_squirrels_noise <- nyc_squirrels %>%
 
 ---
 
-# Where are different color squirrels located (at time of sighting) in Central Park?
+## Where are different color squirrels located in Central Park?
 
 ```{r, "leaflet-map-color", fig.alt = "This is a leaflet  plot that shows the squirrels location, and their recorded fur color, based on their latitude and longitude when recorded. This visualization creates a graphic ontop of a map of central park, which the viewer can zoom in and out of to explore the individual data points up close. The distribution of colors is completely random across the park, but this visualization makes clear that gray squirrels are much more common than all other squirrels" }
 pal_coats <- colorFactor(c("Black", "bisque3", "dimgray", "lightskyblue1"), domain = c("Black", "Cinnamon", "Grey", "NA"))
@@ -227,7 +227,7 @@ nyc_squirrels %>%
 ```
 
 ---
-# Where are different behaviors occuring in Central Park at the time of squirrel sghting?
+## Where are different behaviors occuring in Central Park?
 
 ```{r, "leaflet_behavior", fig.alt = "This is a leaflet  plot that shows the squirrels location, and their recorded bahavior, based on their latitude and longitude when recorded. This visualization creates a graphic ontop of a map of central park, which the viewer can zoom in and out of to explore the individual data points up close. This display of behavior shows no patterns based on location within the park but rather a random display of behaviors (chasing, climbing, eating, running, and other) across the entirety of the park"}
 
@@ -243,10 +243,16 @@ nyc_squirrels %>%
   addLegend(position ="bottomright",pal = pal_behavior, values = ~behavior) 
 ```
 
+---
+## Where do different squirrel behaviors occur over time?
+
+<p align="center">
+  <iframe src="https://69563a3b36fe4ac9a74bbf3e79b6bf01.app.rstudio.cloud/file_show?path=%2Fcloud%2Fproject%2Fpresentation%2Fdrafts%2Fmap_anim.gif" width="1000" height="500" frameBorder="0"></iframe>
+</p>
 
 ---
 
-# Where are squirrels sighted in Central Park?
+## Where are squirrels sighted in Central Park?
 
 ```{r, "heat-map", fig.alt= "This data visualization is a heat map that shows the overall density of squirrel location based on the entire data set. Based on loaction, the squirrels are binned into hectares, each time a squirrel is seen in a hectare - the density of the hectare increased by one. The visualization is clear that there are limited patterns to squirrels observed locations, they are failry evently distributed across the entire park. Hectare E14 is the most densley populated squirrel location over the entire time of data series collection, the density displayed in this hectare is around 20 squirrels. The average hectare had less than 5 squirrels spotted in it over the course of data collection. This revels no patterns to where squirrels are seen, but can be indicative of spots with high forestation, high quantities of food, or limited human activity"}
 
@@ -261,15 +267,7 @@ ggplot(nyc_squirrels, aes(hectare_letter, hectare_number, fill= hectare_squirrel
 
 ---
 
-# Where do different squirrel behaviors occur over time?
-
-<p align="center">
-  <iframe src="https://69563a3b36fe4ac9a74bbf3e79b6bf01.app.rstudio.cloud/file_show?path=%2Fcloud%2Fproject%2Fpresentation%2Fdrafts%2Fmap_anim.gif" width="1000" height="500" frameBorder="0"></iframe>
-</p>
-
----
-
-# Where are squirrels sighted over time? 
+## Where are squirrels sighted over time? 
 
 ```{r heatmap_timeseries}
 
@@ -277,28 +275,28 @@ nyc_squirrels_sum <- nyc_squirrels %>%
   group_by(day, hectare_letter, hectare_number) %>%
   summarise(squirrel_activity = sum(hectare_squirrel_number, na.rm = TRUE))
 
-p2 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, hectare_number, fill= squirrel_activity)) + 
-  geom_tile() + 
-  facet_wrap(~day) + 
-  scale_fill_viridis_c(option = "plasma", direction = -1) +
-  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
-  
-
-p2
-
-p1 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, as.numeric(hectare_number), fill= squirrel_activity)) + 
-  geom_tile() + 
-  scale_fill_viridis_c(option = "plasma", direction = -1) +
-  theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
-
-p3 <- p1 + 
-  transition_time(day) +
-  labs(title = "Day: {frame_time}") +
-  shadow_mark()
-
-animate(p3, renderer = gifski_renderer())
-
-anim_save("heatmap3.gif")
+# p2 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, hectare_number, fill= squirrel_activity)) + 
+#   geom_tile() + 
+#   facet_wrap(~day) + 
+#   scale_fill_viridis_c(option = "plasma", direction = -1) +
+#   theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
+#   
+# 
+# p2
+# 
+# p1 <- ggplot(nyc_squirrels_sum, aes(hectare_letter, as.numeric(hectare_number), fill= squirrel_activity)) + 
+#   geom_tile() + 
+#   scale_fill_viridis_c(option = "plasma", direction = -1) +
+#   theme(plot.margin = unit(c(0, 42, 0, 42), "mm"))
+# 
+# p3 <- p1 + 
+#   transition_time(day) +
+#   labs(title = "Day: {frame_time}") +
+#   shadow_mark()
+# 
+# animate(p3, renderer = gifski_renderer())
+# 
+# anim_save("heatmap3.gif")
 
 ```
 <p align="center">
@@ -306,7 +304,7 @@ anim_save("heatmap3.gif")
 </p>
 
 ---
-#Limitations to the Dataset
+## Limitations to the Dataset
 
 - The squirrel census is citizen reported which leaves room for many count errors and identification issues. 
 
@@ -315,7 +313,7 @@ anim_save("heatmap3.gif")
 - Limited information on who is collecting the data, other than that they are volunteering to count squirrels, so we have to make assumptions about their effectiveness in data collection (i.e. are these kids? retirees? squirrel fanatics?).
 
 ---
-#Suggested Next Steps
+## Suggested Next Steps
 
 - Conduct a revised NYC Squirrel census that is more encompassing (takes into account humans, other areas of New York, and other animals in the area)
 
