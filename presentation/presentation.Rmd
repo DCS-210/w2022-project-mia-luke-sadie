@@ -66,7 +66,7 @@ class: inverse, center, middle
 
 This data comes from the New York City Squirrel Census, which is a raw NY data file. The data was collected by a group of volunteers led by Jamie Allen, a humorist and writer, with the hopes of tracking the Eastern gray (Sciurus carolinensis) population in New York. 
 
-When compiling the total census population, they employed a divide and conquer method, dividing Central Park into 350 hectares. Then, the volunteers spread out and counted and observed squirrels once in the morning and once at night.They then calculated the total number of squirrels by using a formula developed by Vagn Flyger, a squirrel biologist. 
+When compiling the total census population, Allen and his volunteers employed a divide and conquer method, dividing Central Park into 350 hectares. Then, the volunteers spread out and counted and observed squirrels once in the morning and once at night. They then calculated the total number of squirrels by using a formula developed by Vagn Flyger, a squirrel biologist. 
 
 ---
 
@@ -172,7 +172,7 @@ nyc_squirrels %>%
 
 ---
 
-# How is behavior shifted based on time of week?
+# How does squirrel behavior vary based on time of week?
 
 ```{r, "behavior-density-faceted-by-weekend", fig.alt = "This data visualization is a bar chart which shows the count of squirrels observed completeing a behavior. This visualizaiton is faceted by weekday and weekend, with one bar chart for each. The data distribution between the weekdays and weekends are identical in the order of frequency of each behavior. For both weedays and weekends behavior in order of popularity consisted of eating, running, climbing, chasing, and other respectivley. For weekdays the observed squirrel count eating was around 675 squirrels, the next highest value, running, was observed in around 375 squirrels. These numbers are consistent with minimal varriation on the weekends"}
 ggplot(nyc_squirrels, aes(x = behavior, color = behavior, fill = behavior)) +
@@ -301,8 +301,6 @@ animate(p3, renderer = gifski_renderer())
 anim_save("heatmap3.gif")
 
 ```
----
-# Animated Heatmap
 <p align="center">
   <iframe src="https://dcs-210.github.io/w2022-project-mia-luke-sadie/presentation/heatmap3.gif" width="1016" height="516" frameBorder="0"></iframe>
 </p>
@@ -319,7 +317,7 @@ anim_save("heatmap3.gif")
 ---
 #Suggested Next Steps
 
-- Conduct a revised NYC Squirrel census that is more encompassing of area (takes into account humans, other areas of New York, and other animals in the area)
+- Conduct a revised NYC Squirrel census that is more encompassing (takes into account humans, other areas of New York, and other animals in the area)
 
 - Find a better way to tack the squirrels!! GPS tracking or tags could eliminate double sightings and would make identification  easier for the individual reporting a squirrel. This would also be beneficial for a longitudinal study of squirrel behavior and patterns. 
 
