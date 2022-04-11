@@ -50,8 +50,15 @@ style_xaringan(
 )
 ```
 
+## Why squirrels? 
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SSUXXzN26zg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/29VG7D9eGm4?start=472" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
 class: center, middle
+
 
 ## How do squirrels behave in Central Park? 
 
@@ -307,6 +314,8 @@ anim_save("heatmap3.gif")
 
 ---
 #Limitations to the Dataset
+
+
 
 - The squirrel census is citizen reported which leaves room for many count errors and identification issues. 
 
