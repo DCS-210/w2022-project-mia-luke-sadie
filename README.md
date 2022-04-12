@@ -123,7 +123,7 @@ your project.
 ## Presentation
 
 Our presentation can be found
-[here](https://dcs-210.github.io/w2022-project-mia-luke-sadie/).
+[here](presentation/presentation.html).
 
 ## Data
 
