@@ -1,12 +1,8 @@
 ---
-title: Project title
-author: by Team name
+title: NYC Squirrel Census
+author: by Mia Gates, Sadie Kriegler, and Luke Morissette 
 output: github_document
 ---
-
-```{r}
-library(tidyverse)
-```
 
 ## Summary
 
@@ -38,6 +34,13 @@ Our presentation can be found [here](https://dcs-210.github.io/w2022-project-mia
 NYC Open Data, NYC Squirrel Census. "2018 Central Park Squirrel Census - Squirrel Data" Accessed March 14, 2022, https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw
 
 ## References
+
+Bicking, Josh. "SQUIRREL!!!".0:10. Published November 7, 2009. https://www.youtube.com/watch?v=SSUXXzN26zg
+
+Chohen, Michelle. "Central Park squirrels: Once exotic, now basically in charge" Publuished November 16, 2016. https://www.6sqft.com/the-strange-story-of-how-nyc-went-from-one-lone-squirrel-to-an-exploding-population-of-obese-rodents/ 
+
+Graham, Bennett. "Pizza Squirrel Minneapolis". 13:30. Published May 22, 2011. https://www.youtube.com/watch?v=29VG7D9eGm4 
+
 
 NYC Open Data, NYC Squirrel Census. "2018 Central Park Squirrel Census - Squirrel Data" Accessed March 14, 2022, https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw
 
